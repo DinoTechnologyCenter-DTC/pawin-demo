@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { TypeAnimation } from 'react-type-animation';
 
@@ -7,12 +6,15 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ openJoinModal }) => {
+  // Use the correct path for GitHub Pages
+  const imagePath = '/pawin-demo/img/student.jpg';
+
   return (
     <section className="relative h-screen min-h-[600px] flex items-center justify-center text-center text-white">
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: 'url(/img/student.jpg)' }}
+        style={{ backgroundImage: `url(${imagePath})` }}
       ></div>
       
       {/* Dark overlay for better text readability */}
