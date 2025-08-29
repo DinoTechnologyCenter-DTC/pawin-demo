@@ -2,9 +2,9 @@
 <img width="1200" height="475" alt="Pawin Banner" src="/public/img/Pawin banner.jpg" />
 </div>
 
-# PAWIN - Pan African Women in Innovation
+# PAWIN - Pamoja Winners
 
-> Empowering African women innovators through technology and investment opportunities
+> Empoweringn innovators through technology and investment opportunities
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)](https://reactjs.org/)
@@ -93,10 +93,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - [Dino Technology Center - DTC](https://dtc.co.tz)
-- All the amazing women innovators across Africa
+- All the amazing innovators across World
 
 ---
 
 <div align="center">
-  Made with ❤️ by <a href="https://dtc.co.tz">Dino Technology Center</a>
+  Made with ❤️ by <a href="https://dtc.co.tz">Dino Technology Center - DTC</a>
 </div>
