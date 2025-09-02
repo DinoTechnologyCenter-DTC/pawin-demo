@@ -70,6 +70,40 @@ This project includes several optimizations for better image loading performance
 - Content moderation
 - Analytics and reporting
 
+## 🎨 Color Scheme
+
+The PAWIN platform uses a carefully selected color palette that reflects our brand identity and ensures accessibility:
+
+### Primary Colors
+- **Main Brand Color**: `#fe4f51` (Coral Red)
+- **Secondary Color**: `#ffae1f` (Amber)
+- **Dark Background**: `#0f172a` (Slate 900)
+- **Light Background**: `#1e293b` (Slate 800/700 for cards)
+
+### Accent Colors
+- **Success**: `#10b981` (Emerald 500)
+- **Warning**: `#f59e0b` (Amber 500)
+- **Error**: `#ef4444` (Red 500)
+- **Info**: `#3b82f6` (Blue 500)
+
+### Text Colors
+- **Primary Text**: `#f8fafc` (Slate 50)
+- **Secondary Text**: `#94a3b8` (Slate 400)
+- **Tertiary Text**: `#64748b` (Slate 500)
+
+### Gradients
+- **Primary Gradient**: `linear-gradient(to right, #ffae1f, #fe4f51)`
+- **Hover Gradient**: `linear-gradient(to right, #fe4f51, #ffae1f)`
+
+### Usage in Components
+- **Buttons**: Primary gradient with white text
+- **Cards**: Dark background with subtle borders (`border-slate-700`)
+- **Links**: `#3b82f6` (Blue 500) with hover effect
+- **Alerts/Notifications**: Using the accent colors for different message types
+
+### Accessibility
+All color combinations meet WCAG 2.1 AA contrast requirements for text readability.
+
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18, TypeScript, Tailwind CSS
@@ -88,8 +122,8 @@ This project includes several optimizations for better image loading performance
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/pawin-frontend.git
-   cd pawin-frontend
+   git clone https://github.com/DinoTechnologyCenter-DTC/pawin-demo.git
+   cd pawin-demo
    ```
 
 2. **Install dependencies**
@@ -99,7 +133,7 @@ This project includes several optimizations for better image loading performance
    yarn install
    ```
 
-3. **Start the development server**
+3. **Run the development server**
    ```bash
    npm run dev
    # or
@@ -108,6 +142,35 @@ This project includes several optimizations for better image loading performance
 
 4. **Open in browser**
    Visit `http://localhost:5173` in your browser
+
+## 🚀 Deployment to GitHub Pages
+
+1. **Install gh-pages package**
+   ```bash
+   npm install --save-dev gh-pages
+   ```
+
+2. **Build the project**
+   ```bash
+   npm run build
+   ```
+
+3. **Deploy to GitHub Pages**
+   ```bash
+   npm run deploy
+   ```
+
+   This will create a `gh-pages` branch in your repository and deploy your app to GitHub Pages at:
+   https://DinoTechnologyCenter-DTC.github.io/pawin-demo
+
+4. **Enable GitHub Pages in your repository**
+   - Go to your repository on GitHub
+   - Click on "Settings"
+   - In the left sidebar, click on "Pages"
+   - Under "Source", select "gh-pages" branch and "/ (root)" folder
+   - Click "Save"
+
+Your site will be live at: https://DinoTechnologyCenter-DTC.github.io/pawin-demo
 
 ## 🏗️ Project Structure
 

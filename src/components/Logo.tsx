@@ -9,7 +9,7 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
     <img
-      src="/img/pawin_logo.png"
+      src="img/pawin_logo.png"
       alt="PAWIN Logo"
       className={className}
       // Provide an approximate intrinsic size based on the logo's content
