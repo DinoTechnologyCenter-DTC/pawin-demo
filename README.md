@@ -4,7 +4,7 @@
 
 # PAWIN - Pamoja Winners
 
-> Empoweringn innovators through technology and investment opportunities
+> Empowering African young innovators through technology and investment opportunities
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)](https://reactjs.org/)
@@ -25,6 +25,50 @@ This project includes several optimizations for better image loading performance
 - **Investment Hub** - Connect with potential investors
 - **Community** - Network with like-minded individuals
 - **Resource Center** - Access to tools and knowledge
+
+
+
+## 🚧 Future Features
+
+### 1. User Authentication & Profiles
+- User registration/login with email/social auth
+- Role-based access (admin, mentor, innovator, investor)
+- User dashboards with personalized content
+
+### 2. Project Showcase Platform
+- Submission form for innovators to showcase projects
+- Project browsing with filtering (category, funding stage, location)
+- Upvoting and commenting system
+
+### 3. Mentorship Matching System
+- Mentor profiles with expertise areas
+- Scheduling system for mentorship sessions
+- Progress tracking and feedback
+
+### 4. Funding & Investment Portal
+- Crowdfunding integration
+- Investor profiles and deal rooms
+- Secure payment processing
+
+### 5. Community Features
+- Discussion forums
+- Event management system
+- Resource library with educational content
+
+### 6. Analytics Dashboard
+- User engagement metrics
+- Project performance tracking
+- Impact measurement
+
+### 7. Mobile App
+- Native mobile experience
+- Push notifications
+- Offline capabilities
+
+### 8. Admin Panel
+- User management
+- Content moderation
+- Analytics and reporting
 
 ## 🛠️ Tech Stack
 
@@ -93,10 +137,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - [Dino Technology Center - DTC](https://dtc.co.tz)
-- All the amazing innovators across World
+- All the amazing women innovators across Africa
 
 ---
 
 <div align="center">
-  Made with ❤️ by <a href="https://dtc.co.tz">Dino Technology Center - DTC</a>
+  Made with ❤️ by <a href="https://dtc.co.tz">Dino Technology Center</a>
 </div>

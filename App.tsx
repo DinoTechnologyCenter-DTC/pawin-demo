@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import Loader from './src/components/Loader';
 import Header from './src/components/Header';
 import Hero from './src/components/Hero';
 import Nexus from './src/components/Nexus';
@@ -65,27 +65,33 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-900 text-slate-300 font-sans antialiased">
-      {/* Global Particle Background */}
-      <div className="fixed inset-0 -z-10">
-        <ParticleBackground />
+    <>
+      <Loader />
+      <div className="min-h-screen flex flex-col bg-slate-900 text-slate-300 font-sans antialiased">
+        {/* Global Particle Background */}
+        <div className="fixed inset-0 -z-10">
+          <ParticleBackground />
+        </div>
+        
+        {/* Semi-transparent overlay for better readability */}
+        <div className="fixed inset-0 -z-10 bg-slate-900/30 pointer-events-none"></div>
+        <Header 
+          currentPage={currentPage} 
+          setCurrentPage={setCurrentPage} 
+          openJoinModal={openJoinModal} 
+        />
+        <main className="flex-grow">
+          {renderPage()}
+        </main>
+        <Footer setCurrentPage={setCurrentPage} />
+        <JoinModal 
+          isOpen={isJoinModalOpen} 
+          onClose={closeJoinModal} 
+          interest={joinModalConfig.interest}
+          jobTitle={joinModalConfig.jobTitle}
+        />
       </div>
-      
-      {/* Semi-transparent overlay for better readability */}
-      <div className="fixed inset-0 -z-10 bg-slate-900/30 pointer-events-none"></div>
-      <Header setCurrentPage={setCurrentPage} openJoinModal={openJoinModal} />
-      <main className="flex-grow">
-        {renderPage()}
-      </main>
-      <Footer setCurrentPage={setCurrentPage} />
-      
-      <JoinModal 
-        isOpen={isJoinModalOpen} 
-        onClose={closeJoinModal}
-        defaultInterest={joinModalConfig.interest}
-        jobTitle={joinModalConfig.jobTitle}
-      />
-    </div>
+    </>
   );
 };
 

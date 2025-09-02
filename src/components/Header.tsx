@@ -4,9 +4,10 @@ import Logo from './Logo';
 interface HeaderProps {
   setCurrentPage: (page: string) => void;
   openJoinModal: (interest?: string) => void;
+  currentPage: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ setCurrentPage, openJoinModal }) => {
+const Header: React.FC<HeaderProps> = ({ setCurrentPage, openJoinModal, currentPage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   const navLinks = [
@@ -45,7 +46,11 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage, openJoinModal }) => {
                 <button
                   key={link.name}
                   onClick={() => handleNavClick(link.page)}
-                  className="text-purple-200 hover:text-[#ffae1f] font-medium transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_8px_rgba(199,210,254,0.5)]">
+                  className={`font-medium transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_8px_rgba(255,174,31,0.5)] ${
+                    currentPage === link.page 
+                      ? 'text-[#ffae1f] font-bold' 
+                      : 'text-purple-200 hover:text-[#ffae1f]'
+                  }`}>
                   {link.name}
                 </button>
               ))}
@@ -123,8 +128,11 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage, openJoinModal }) => {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.page)}
-                className="text-slate-300 hover:bg-slate-800 hover:text-white transition-colors duration-200 text-left text-lg py-3 px-4 rounded-lg"
-              >
+                className={`text-slate-300 hover:bg-slate-800 hover:text-white transition-colors duration-200 text-left text-lg py-3 px-4 rounded-lg ${
+                  currentPage === link.page 
+                    ? 'bg-slate-800 text-white' 
+                    : ''
+                }`}>
                 {link.name}
               </button>
             ))}
