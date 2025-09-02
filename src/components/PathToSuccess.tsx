@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CheckIcon } from './icons';
 import Animated from './Animated';
@@ -12,7 +11,7 @@ interface StepProps {
 function SuccessStep({ number, title, description }: StepProps) {
   return (
     <div className="relative pl-12 pb-12">
-      <div className="absolute left-0 top-0 flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full text-white font-bold">
+      <div className="absolute left-0 top-0 flex items-center justify-center w-8 h-8 bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] rounded-full text-white font-bold">
         {number}
       </div>
       <div className="absolute left-4 top-8 w-px h-full bg-slate-700"></div>
@@ -56,7 +55,7 @@ const PathToSuccess: React.FC = () => {
                   />
                 </Animated>
                  <Animated delay={400} className="relative pl-12">
-                    <div className="absolute left-0 top-0 flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full text-white font-bold">
+                    <div className="absolute left-0 top-0 flex items-center justify-center w-8 h-8 bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] rounded-full text-white font-bold">
                         <CheckIcon />
                     </div>
                     <h3 className="text-xl font-bold text-white mb-2">Build & Grow</h3>

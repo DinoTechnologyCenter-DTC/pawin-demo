@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { InnovatorIcon, InvestorIcon, CommunityIcon } from './icons';
 import Animated from './Animated';
 
 const NexusCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => {
   return (
-    <div className="bg-slate-800 p-8 rounded-xl border border-slate-700 hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-2 h-full">
+    <div className="bg-slate-800 p-8 rounded-xl border border-slate-700 hover:border-[#ffae1f] transition-all duration-300 transform hover:-translate-y-2 h-full">
       <div className="bg-slate-700/50 rounded-lg w-12 h-12 flex items-center justify-center mb-6">
         {icon}
       </div>

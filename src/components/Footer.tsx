@@ -12,29 +12,29 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
-            <Logo className="h-12 w-auto" />
+            <Logo className="h-16 w-auto" />
           </div>
           <div>
             <h3 className="font-semibold text-white mb-4">Platform</h3>
             <ul className="space-y-2">
-              <li><button onClick={() => setCurrentPage('innovators')} className="text-slate-400 hover:text-white transition-colors duration-200">For Innovators</button></li>
-              <li><button onClick={() => setCurrentPage('investors')} className="text-slate-400 hover:text-white transition-colors duration-200">For Investors</button></li>
-              <li><button onClick={() => setCurrentPage('community')} className="text-slate-400 hover:text-white transition-colors duration-200">For Community</button></li>
+              <li><button onClick={() => setCurrentPage('innovators')} className="text-slate-400 hover:text-[#ffae1f] transition-colors duration-200">For Innovators</button></li>
+              <li><button onClick={() => setCurrentPage('investors')} className="text-slate-400 hover:text-[#ffae1f] transition-colors duration-200">For Investors</button></li>
+              <li><button onClick={() => setCurrentPage('community')} className="text-slate-400 hover:text-[#ffae1f] transition-colors duration-200">For Community</button></li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold text-white mb-4">Company</h3>
             <ul className="space-y-2">
-              <li><button onClick={() => setCurrentPage('about')} className="text-slate-400 hover:text-white transition-colors duration-200">About Us</button></li>
-              <li><button onClick={() => setCurrentPage('careers')} className="text-slate-400 hover:text-white transition-colors duration-200">Careers</button></li>
-              <li><button onClick={() => setCurrentPage('contact')} className="text-slate-400 hover:text-white transition-colors duration-200">Contact</button></li>
+              <li><button onClick={() => setCurrentPage('about')} className="text-slate-400 hover:text-[#ffae1f] transition-colors duration-200">About Us</button></li>
+              <li><button onClick={() => setCurrentPage('careers')} className="text-slate-400 hover:text-[#ffae1f] transition-colors duration-200">Careers</button></li>
+              <li><button onClick={() => setCurrentPage('contact')} className="text-slate-400 hover:text-[#ffae1f] transition-colors duration-200">Contact</button></li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold text-white mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-slate-400 hover:text-white">Privacy Policy</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white">Terms of Service</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-[#ffae1f]">Privacy Policy</a></li>
+              <li><a href="#" className="text-slate-400 hover:text-[#ffae1f]">Terms of Service</a></li>
             </ul>
           </div>
         </div>
