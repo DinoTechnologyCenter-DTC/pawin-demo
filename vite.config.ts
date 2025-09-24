@@ -4,8 +4,11 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction = mode === 'production';
     const base = isProduction ? '/pawin-demo/' : '/';
+    
+    // Set the base URL for production
+    process.env.VITE_BASE_URL = base;
     
     return {
         base,

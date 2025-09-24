@@ -6,10 +6,21 @@
 export const getImagePath = (path: string): string => {
   // Remove leading slash if present
   const cleanPath = path.startsWith('/') ? path.substring(1) : path;
-  // Use the BASE_URL from environment variables or fallback to '/'
-  const base = process.env.BASE_URL || '/';
-  // Ensure there's exactly one slash between base and path
-  return `${base}${cleanPath}`;
+  
+  // In development or when running locally, use the path as is
+  if (import.meta.env.DEV) {
+    return `/${cleanPath}`;
+  }
+  
+  // In production, use the base URL (for GitHub Pages)
+  // The base URL should be set in vite.config.ts
+  const base = import.meta.env.BASE_URL || '/';
+  
+  // Remove any trailing slashes from base and leading slashes from path
+  const normalizedBase = base.endsWith('/') ? base.slice(0, -1) : base;
+  const normalizedPath = cleanPath.startsWith('/') ? cleanPath.substring(1) : cleanPath;
+  
+  return `${normalizedBase}/${normalizedPath}`;
 };
 
 /**
