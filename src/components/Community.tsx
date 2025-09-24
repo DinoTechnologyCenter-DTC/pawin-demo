@@ -66,13 +66,13 @@ const hubs = [
 
 
 const EventCard: React.FC<typeof events[0]> = ({ date, day, title, type, description }) => (
-  <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 flex space-x-6 items-start hover:border-blue-500 transition-colors duration-300">
+  <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 flex space-x-6 items-start hover:border-amber-500 transition-colors duration-300">
     <div className="flex-shrink-0 text-center bg-slate-700 rounded-lg p-3 w-20">
       <p className="text-red-400 font-bold text-sm">{date}</p>
       <p className="text-white font-extrabold text-3xl">{day}</p>
     </div>
     <div>
-      <p className="text-sm text-blue-400 font-semibold mb-1">{type}</p>
+      <p className="text-sm text-amber-400 font-semibold mb-1">{type}</p>
       <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
       <p className="text-slate-400 leading-relaxed">{description}</p>
     </div>
@@ -83,7 +83,7 @@ const MemberCard: React.FC<typeof members[0]> = ({ avatar, name, role, bio, expe
     <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 flex flex-col text-center items-center h-full">
         <img src={avatar} alt={name} className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-slate-600" />
         <h4 className="text-xl font-bold text-white">{name}</h4>
-        <p className="text-blue-400 text-sm mb-3">{role}</p>
+        <p className="text-amber-400 text-sm mb-3">{role}</p>
         <p className="text-slate-400 text-sm mb-4 flex-grow">{bio}</p>
         <div className="flex flex-wrap justify-center gap-2 mb-4">
             {expertise.map(skill => (
@@ -111,7 +111,7 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
           <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-slate-300">
             Welcome to the heart of PAWIN. A vibrant ecosystem of innovators, experts, and investors collaborating to build the future of Africa.
           </p>
-          <button onClick={() => openJoinModal('community')} className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+          <button onClick={() => openJoinModal('community')} className="bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-semibold px-8 py-3 rounded-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105">
             Join the Conversation
           </button>
         </div>
@@ -160,12 +160,12 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
                   {hubs.map((hub, index) => (
                       <Animated key={hub.title} delay={index * 150}>
                         <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center h-full flex flex-col">
-                            <div className="text-blue-400 w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                            <div className="text-amber-400 w-12 h-12 flex items-center justify-center mx-auto mb-4">
                                 {hub.icon}
                             </div>
                             <h3 className="text-xl font-bold text-white mb-2">{hub.title}</h3>
                             <p className="text-sm text-slate-400 mb-4 flex-grow">{hub.members} members &middot; {hub.discussions} discussions</p>
-                             <button className="font-semibold text-blue-400 hover:text-white transition-colors duration-200 text-sm mt-auto">
+                             <button className="font-semibold text-amber-400 hover:text-white transition-colors duration-200 text-sm mt-auto">
                                 Enter Hub &rarr;
                             </button>
                         </div>

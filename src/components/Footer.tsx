@@ -43,26 +43,32 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
           <p className="text-slate-500 text-sm mb-4 md:mb-0">© 2025 PAWIN. All rights reserved.</p>
           <div><p>#PamojaWinners | #ThinkBeyond | #AfricaForward</p></div>
           <div className="flex space-x-4">
-            <a href="https://www.instagram.com/pamoja_winners?igsh=MTB0c3pramE0b3Mydw%3D%3D&utm_source=qr" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               className="text-slate-400 hover:text-white transition-colors duration-200"
-               aria-label="Instagram">
-              <InstagramIcon />
+            <a 
+              href="https://www.instagram.com/pamoja_winners" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-slate-700/50 flex items-center justify-center text-slate-300 hover:bg-gradient-to-r hover:from-[#ffae1f] hover:to-[#fe4f51] hover:text-white transition-all duration-200" 
+              aria-label="Instagram"
+            >
+              <InstagramIcon className="w-5 h-5" />
             </a>
-            <a href="https://www.tiktok.com/@pawincompany8?_t=ZM-8yalx2ArFO1&_r=1" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               className="text-slate-400 hover:text-white transition-colors duration-200"
-               aria-label="TikTok">
-              <TikTokIcon />
+            <a 
+              href="https://www.tiktok.com/@pawincompany8" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-slate-700/50 flex items-center justify-center text-slate-300 hover:bg-gradient-to-r hover:from-[#ffae1f] hover:to-[#fe4f51] hover:text-white transition-all duration-200" 
+              aria-label="TikTok"
+            >
+              <TikTokIcon className="w-5 h-5" />
             </a>
-            <a href="https://www.linkedin.com/in/pawin247365" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               className="text-slate-400 hover:text-white transition-colors duration-200"
-               aria-label="LinkedIn">
-              <LinkedInIcon />
+            <a 
+              href="https://www.linkedin.com/in/pawin247365" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-slate-700/50 flex items-center justify-center text-slate-300 hover:bg-gradient-to-r hover:from-[#ffae1f] hover:to-[#fe4f51] hover:text-white transition-all duration-200" 
+              aria-label="LinkedIn"
+            >
+              <LinkedInIcon className="w-5 h-5" />
             </a>
           </div>
         </div>

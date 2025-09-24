@@ -94,7 +94,7 @@ const JobListing: React.FC<JobListingProps> = ({ job, isOpen, onClick, openJoinM
                 </ul>
                 <button 
                   onClick={() => openJoinModal('career', { jobTitle: job.title })}
-                  className="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                  className="bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-semibold px-5 py-2 rounded-lg hover:opacity-90 transition-colors duration-300">
                     Apply Now
                 </button>
             </div>

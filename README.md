@@ -7,8 +7,9 @@
 > Empowering African young innovators through technology and investment opportunities
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19.1.1-61DAFB?logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.2-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.2.0-646CFF?logo=vite)](https://vitejs.dev/)
 
 ## 🖼️ Image Optimization
 
@@ -21,7 +22,12 @@ This project includes several optimizations for better image loading performance
 
 ## 🚀 Features
 
-- **Innovator Profiles** - Showcase women-led innovations
+- **Modern React 19** - Built with the latest React features
+- **Type Safety** - Full TypeScript support
+- **Animations** - Smooth UI interactions with Framer Motion
+- **Responsive Design** - Works on all device sizes
+
+- **Innovator Profiles** - Showcase innovations
 - **Investment Hub** - Connect with potential investors
 - **Community** - Network with like-minded individuals
 - **Resource Center** - Access to tools and knowledge
@@ -70,47 +76,95 @@ This project includes several optimizations for better image loading performance
 - Content moderation
 - Analytics and reporting
 
-## 🎨 Color Scheme
+## ✨ Recent Updates (2025-09-04)
 
-The PAWIN platform uses a carefully selected color palette that reflects our brand identity and ensures accessibility:
+### Project Initialization
+- Upgraded to React 19
+- Added Framer Motion for animations
+- Set up TypeScript with strict mode
+- Configured Vite for development and production builds
 
-### Primary Colors
-- **Main Brand Color**: `#fe4f51` (Coral Red)
-- **Secondary Color**: `#ffae1f` (Amber)
-- **Dark Background**: `#0f172a` (Slate 900)
-- **Light Background**: `#1e293b` (Slate 800/700 for cards)
+### Team Member Modal
+- Added interactive team member modal with smooth animations
+- Implemented click-outside and Escape key to close functionality
+- Enhanced accessibility with proper focus management
+- Added hover and focus states for better user interaction
 
-### Accent Colors
-- **Success**: `#10b981` (Emerald 500)
-- **Warning**: `#f59e0b` (Amber 500)
-- **Error**: `#ef4444` (Red 500)
-- **Info**: `#3b82f6` (Blue 500)
+### UI/UX Improvements
+- Updated color scheme documentation
+- Improved button and card hover effects
+- Enhanced modal transitions and animations
+- Added proper scroll locking when modal is open
 
-### Text Colors
-- **Primary Text**: `#f8fafc` (Slate 50)
-- **Secondary Text**: `#94a3b8` (Slate 400)
-- **Tertiary Text**: `#64748b` (Slate 500)
-
-### Gradients
-- **Primary Gradient**: `linear-gradient(to right, #ffae1f, #fe4f51)`
-- **Hover Gradient**: `linear-gradient(to right, #fe4f51, #ffae1f)`
-
-### Usage in Components
-- **Buttons**: Primary gradient with white text
-- **Cards**: Dark background with subtle borders (`border-slate-700`)
-- **Links**: `#3b82f6` (Blue 500) with hover effect
-- **Alerts/Notifications**: Using the accent colors for different message types
-
-### Accessibility
-All color combinations meet WCAG 2.1 AA contrast requirements for text readability.
+### Bug Fixes
+- Fixed modal not closing properly in some cases
+- Resolved issues with event propagation
+- Improved mobile responsiveness for modals
+- Fixed z-index issues with modal overlays
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18, TypeScript, Tailwind CSS
+- **Frontend**: React 19, TypeScript, Tailwind CSS
+- **Animation**: Framer Motion
 - **State Management**: React Context API
-- **Routing**: React Router
-- **Icons**: Custom SVG Icons
-- **Build Tool**: Vite
+- **Routing**: React Router v7
+- **Icons**: React Icons
+- **Build Tool**: Vite 6.2
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/pawin-frontend.git
+   cd pawin-frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+
+## 🏗️ Project Structure
+
+```
+src/
+├── components/         # Reusable UI components
+│   ├── About.tsx      # About section
+│   ├── Contact.tsx    # Contact form
+│   ├── Header.tsx     # Navigation header
+│   └── ...
+├── utils/             # Utility functions
+└── App.tsx            # Main application component
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 📦 Prerequisites
 
@@ -122,8 +176,8 @@ All color combinations meet WCAG 2.1 AA contrast requirements for text readabili
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/DinoTechnologyCenter-DTC/pawin-demo.git
-   cd pawin-demo
+   git clone https://github.com/your-username/pawin-frontend.git
+   cd pawin-frontend
    ```
 
 2. **Install dependencies**
@@ -133,7 +187,7 @@ All color combinations meet WCAG 2.1 AA contrast requirements for text readabili
    yarn install
    ```
 
-3. **Run the development server**
+3. **Start the development server**
    ```bash
    npm run dev
    # or
@@ -142,35 +196,6 @@ All color combinations meet WCAG 2.1 AA contrast requirements for text readabili
 
 4. **Open in browser**
    Visit `http://localhost:5173` in your browser
-
-## 🚀 Deployment to GitHub Pages
-
-1. **Install gh-pages package**
-   ```bash
-   npm install --save-dev gh-pages
-   ```
-
-2. **Build the project**
-   ```bash
-   npm run build
-   ```
-
-3. **Deploy to GitHub Pages**
-   ```bash
-   npm run deploy
-   ```
-
-   This will create a `gh-pages` branch in your repository and deploy your app to GitHub Pages at:
-   https://DinoTechnologyCenter-DTC.github.io/pawin-demo
-
-4. **Enable GitHub Pages in your repository**
-   - Go to your repository on GitHub
-   - Click on "Settings"
-   - In the left sidebar, click on "Pages"
-   - Under "Source", select "gh-pages" branch and "/ (root)" folder
-   - Click "Save"
-
-Your site will be live at: https://DinoTechnologyCenter-DTC.github.io/pawin-demo
 
 ## 🏗️ Project Structure
 
@@ -200,7 +225,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - [Dino Technology Center - DTC](https://dtc.co.tz)
-- All the amazing women innovators across Africa
+- All the amazing innovators across Africa
 
 ---
 

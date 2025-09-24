@@ -78,7 +78,7 @@ const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose, defaultInterest 
           
           {isSubmitted ? (
             <div className="text-center py-12">
-              <div className="w-20 h-20 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-20 h-20 bg-orange-500/20 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckIcon />
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
@@ -91,15 +91,15 @@ const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose, defaultInterest 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
-                  <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
+                  <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition" />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
-                  <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} required className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
+                  <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} required className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition" />
                 </div>
                 <div>
                   <label htmlFor="interest" className="block text-sm font-medium text-slate-300 mb-2">I am interested in...</label>
-                  <select name="interest" id="interest" value={formData.interest} onChange={handleChange} className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                  <select name="interest" id="interest" value={formData.interest} onChange={handleChange} className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
                     <option value="innovator">Becoming an Innovator</option>
                     <option value="investor">Becoming an Investor</option>
                     <option value="community">Joining the Community</option>
@@ -109,10 +109,10 @@ const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose, defaultInterest 
                 </div>
                  <div>
                   <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">Message</label>
-                  <textarea name="message" id="message" rows={4} value={formData.message} onChange={handleChange} className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Tell us more about your project or inquiry..."></textarea>
+                  <textarea name="message" id="message" rows={4} value={formData.message} onChange={handleChange} className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition" placeholder="Tell us more about your project or inquiry..."></textarea>
                 </div>
                 <div>
-                  <button type="submit" className="w-full bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                  <button type="submit" className="w-full bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition-colors duration-300">
                     {currentConfig.button}
                   </button>
                 </div>

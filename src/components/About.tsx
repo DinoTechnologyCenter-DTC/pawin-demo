@@ -145,7 +145,7 @@ const TeamMemberCard: React.FC<{ member: TeamMember; onReadMore: () => void; ind
     >
       {/* Glow effect on hover */}
       <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100"
+        className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100"
         initial={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       />
@@ -489,11 +489,11 @@ const About: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <Animated className="relative group">
               <img src="/img/Pawin banner.jpg" alt="PAWIN Logo" className="rounded-xl shadow-2xl w-full h-auto" />
-            </Animated>
+            </Animated> 
             <Animated>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Story</h2>
               <p className="text-slate-300 mb-4 leading-relaxed">
-                Founded in Tanzania by a group of pass ionate young innovators, PAWIN was born from a simple yet powerful observation: countless brilliant ideas across Africa were failing to reach their potential due to a lack of access to funding, mentorship, and a supportive community.
+                Founded in Tanzania by a group of passionate young innovators, PAWIN was born from a simple yet powerful observation: countless brilliant ideas across Africa were failing to reach their potential due to a lack of access to funding, mentorship, and a supportive community.
               </p>
               <p className="text-slate-300 leading-relaxed">
                 We set out to build the bridge. Our mission is to create a self-sustaining ecosystem where innovators can connect with investors who share their vision, and where a vibrant community can contribute to their success. We believe that by empowering local talent, we can solve local challenges and create a lasting global impact.

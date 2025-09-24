@@ -19,10 +19,10 @@ const getSectorStyles = (sector: string): SectorStyles => {
   switch (sector.toLowerCase()) {
     case 'fintech':
       return {
-        dot: 'bg-blue-400',
-        background: 'bg-blue-500/10',
-        text: 'text-blue-300',
-        ring: 'ring-blue-500/20',
+        dot: 'bg-amber-400',
+        background: 'bg-amber-500/10',
+        text: 'text-amber-300',
+        ring: 'ring-amber-500/20',
       };
     case 'healthtech':
       return {
@@ -70,7 +70,7 @@ const UseOfFundsChart: React.FC<{ data: { area: string; percentage: number }[] }
                     <span className="text-xs font-medium text-slate-300">{item.percentage}%</span>
                 </div>
                 <div className="w-full bg-slate-600 rounded-full h-2">
-                    <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${item.percentage}%` }}></div>
+                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full" style={{ width: `${item.percentage}%` }}></div>
                 </div>
             </div>
         ))}
@@ -167,7 +167,7 @@ const DealMemoModal: React.FC<DealMemoModalProps> = ({ deal, onClose }) => {
         
         {/* Footer */}
         <div className="sticky bottom-0 bg-slate-800/80 backdrop-blur-md z-10 px-8 py-4 border-t border-slate-700 flex justify-end items-center">
-            <button className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+            <button className="bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-semibold px-6 py-2 rounded-lg hover:opacity-90 transition-colors duration-300">
                 Express Interest
             </button>
         </div>

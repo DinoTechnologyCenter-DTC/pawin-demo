@@ -17,7 +17,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, avatar, name, 
         <img src={avatar} alt={name} className="w-12 h-12 rounded-full mr-4" />
         <div>
           <p className="font-bold text-white">{name}</p>
-          <p className="text-sm text-blue-400">{role}</p>
+          <p className="text-sm text-amber-400">{role}</p>
         </div>
       </div>
     </div>

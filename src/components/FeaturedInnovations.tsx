@@ -34,7 +34,7 @@ const FeaturedInnovations: React.FC = () => {
       category: "Consultancy",
       title: "Expert Consultancy Services",
       description: "Professional consulting services providing strategic guidance and solutions tailored to your business needs. Our experts help you navigate challenges and achieve sustainable growth.",
-      categoryColor: "bg-blue-500/30 text-blue-300"
+      categoryColor: "bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300"
     },
     {
       image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",

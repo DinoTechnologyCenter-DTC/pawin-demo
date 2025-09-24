@@ -2,8 +2,8 @@
   "name": "pawin---think-beyond",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://DinoTechnologyCenter-DTC.github.io/pawin-demo",
   "type": "module",
+  "homepage": "https://dinotechnologycenter-dtc.github.io/pawin-demo",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -23,7 +23,6 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "gh-pages": "^6.3.0",
-    "svgo": "^4.0.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
     "vite-plugin-image-optimizer": "^2.0.2"

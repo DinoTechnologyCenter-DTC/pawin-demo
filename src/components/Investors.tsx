@@ -34,10 +34,10 @@ const getSectorStyles = (sector: string): SectorStyles => {
   switch (sector.toLowerCase()) {
     case 'fintech':
       return {
-        dot: 'bg-blue-400',
-        background: 'bg-blue-500/10',
-        text: 'text-blue-300',
-        ring: 'ring-blue-500/20',
+        dot: 'bg-amber-400',
+        background: 'bg-amber-500/10',
+        text: 'text-amber-300',
+        ring: 'ring-amber-500/20',
       };
     case 'healthtech':
       return {
@@ -67,9 +67,9 @@ const getSectorStyles = (sector: string): SectorStyles => {
 // --- DATA & COMPONENTS ---
 
 const stats = [
-    { value: "$5.2B", label: "VC Funding in Africa (2023)" },
-    { value: "60%", label: "Population Under 25" },
-    { value: "400M+", label: "Untapped Internet Users" }
+    { value: "$0", label: "VC Funding in Africa (2023)" },
+    { value: "0%", label: "Population Under 25" },
+    { value: "0", label: "Untapped Internet Users" }
 ];
 
 const advantages = [
@@ -185,14 +185,14 @@ const testimonials = [
 
 const StatCard: React.FC<{ value: string; label: string; }> = ({ value, label }) => (
     <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 text-center">
-        <p className="text-4xl font-bold text-blue-400 mb-2">{value}</p>
+        <p className="text-4xl font-bold text-amber-400 mb-2">{value}</p>
         <p className="text-slate-400">{label}</p>
     </div>
 );
 
 const AdvantageCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => (
   <div className="bg-slate-800 p-8 rounded-xl border border-slate-700 h-full">
-    <div className="bg-slate-700/50 rounded-lg w-12 h-12 flex items-center justify-center mb-5 text-blue-400">
+    <div className="bg-slate-700/50 rounded-lg w-12 h-12 flex items-center justify-center mb-5 text-amber-400">
       {icon}
     </div>
     <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
@@ -208,7 +208,7 @@ const DealCard: React.FC<DealCardProps> = ({ deal, onClick }) => {
     const sectorStyles = getSectorStyles(deal.sector);
 
     return (
-    <button onClick={onClick} className="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 transition-all duration-300 hover:border-blue-500 hover:bg-slate-800/80 flex flex-col text-left w-full h-full">
+    <button onClick={onClick} className="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 transition-all duration-300 hover:border-amber-500 hover:bg-slate-800/80 flex flex-col text-left w-full h-full">
         <div className="flex justify-between items-start">
             <div>
                 <div className={`inline-flex items-center gap-x-2 rounded-full px-3 py-1 text-sm font-semibold ${sectorStyles.background} ${sectorStyles.text} ring-1 ring-inset ${sectorStyles.ring}`}>
@@ -232,7 +232,7 @@ const DealCard: React.FC<DealCardProps> = ({ deal, onClick }) => {
                 <p className="text-sm text-slate-400">Funding Goal</p>
                 <p className="text-lg font-bold text-green-400">{deal.fundingGoal}</p>
             </div>
-            <div className="text-sm font-semibold text-blue-400">
+            <div className="text-sm font-semibold text-amber-400">
                 View Details &rarr;
             </div>
         </div>
@@ -248,7 +248,7 @@ const TestimonialCard: React.FC<typeof testimonials[0]> = ({ quote, avatar, name
         <img src={avatar} alt={name} className="w-12 h-12 rounded-full mr-4" />
         <div>
           <p className="font-bold text-white">{name}</p>
-          <p className="text-sm text-blue-400">{role}</p>
+          <p className="text-sm text-amber-400">{role}</p>
         </div>
       </div>
     </div>
@@ -260,7 +260,7 @@ export const Investors: React.FC<InvestorsProps> = ({ openJoinModal }) => {
 
   return (
     <>
-      <div className="bg-slate-900 text-slate-300">
+      <div className="text-amber-400">
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 text-center text-white bg-[url('https://picsum.photos/seed/capital/1600/900')] bg-cover bg-center">
           <div className="absolute inset-0 bg-slate-900/80 z-10"></div>
@@ -271,14 +271,14 @@ export const Investors: React.FC<InvestorsProps> = ({ openJoinModal }) => {
             <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-slate-300">
               PAWIN provides accredited investors with unparalleled access to a curated portfolio of high-growth, rigorously vetted technology ventures poised for significant returns.
             </p>
-            <button onClick={() => openJoinModal('investor')} className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+            <button onClick={() => openJoinModal('investor')} className="bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-semibold px-8 py-3 rounded-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105">
               Request Access
             </button>
           </div>
         </section>
 
         {/* Market Opportunity Stats Section */}
-        <section className="py-20">
+        <section className="py-20 bg-slate-900">
           <div className="container mx-auto px-6 text-center">
             <Animated>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">An Unprecedented Market Opportunity</h2>
@@ -308,7 +308,7 @@ export const Investors: React.FC<InvestorsProps> = ({ openJoinModal }) => {
         </section>
 
         {/* Featured Deal Flow */}
-        <section className="py-20">
+        <section className="py-20 bg-slate-800">
           <div className="container mx-auto px-6">
               <Animated className="text-center mb-12">
                   <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Featured Deal Flow</h2>
@@ -335,7 +335,7 @@ export const Investors: React.FC<InvestorsProps> = ({ openJoinModal }) => {
                       {num: 4, title: "Portfolio Management", desc: "We facilitate deal closure and provide ongoing portfolio monitoring and support to maximize success."}
                   ].map((step, index) => (
                       <Animated key={step.num} delay={index * 150} className="relative z-10 text-center p-4">
-                          <div className="w-12 h-12 bg-slate-800 border-2 border-blue-500 rounded-full flex items-center justify-center text-lg font-bold text-blue-400 mx-auto mb-4">{step.num}</div>
+                          <div className="w-12 h-12 bg-slate-800 border-2 border-blue-500 rounded-full flex items-center justify-center text-lg font-bold text-amber-400 mx-auto mb-4">{step.num}</div>
                           <h3 className="font-bold text-white mb-2">{step.title}</h3>
                           <p className="text-slate-400 text-sm">{step.desc}</p>
                       </Animated>
@@ -345,7 +345,7 @@ export const Investors: React.FC<InvestorsProps> = ({ openJoinModal }) => {
         </section>
         
         {/* Investor Testimonials */}
-        <section className="py-20">
+        <section className="py-20 bg-slate-900">
           <div className="container mx-auto px-6">
               <Animated className="text-center mb-12">
                   <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Trusted by Leading Investors</h2>
