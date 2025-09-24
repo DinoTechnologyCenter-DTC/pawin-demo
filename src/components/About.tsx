@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TargetIcon, EyeIcon, HeartIcon, LinkedInIcon, XIcon, InstagramIcon } from './icons';
 import Animated from './Animated';
+import { getImagePath } from '../utils/paths';
 
 interface TeamMember {
   avatar: string;
@@ -103,7 +104,7 @@ const teamMembers: TeamMember[] = [
 
 const developerCompany: DeveloperCompany = {
   name: "Dino Technology Center - DTC",
-  logo: "/img/dtc-assets/dtc_logo_icon.png",
+  logo: getImagePath("img/dtc-assets/dtc_logo_icon.png"),
   bio: "Dino Technology Center is a leading web development company specializing in creating modern, responsive, and high-performance web applications. Our team of expert developers is dedicated to delivering cutting-edge solutions that drive business growth and innovation.",
   services: [
     "Custom Web Development",
@@ -488,7 +489,7 @@ const About: React.FC = () => {
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <Animated className="relative group">
-              <img src="/img/Pawin banner.jpg" alt="PAWIN Logo" className="rounded-xl shadow-2xl w-full h-auto" />
+              <img src={getImagePath("img/Pawin banner.jpg")} alt="PAWIN Logo" className="rounded-xl shadow-2xl w-full h-auto" />
             </Animated> 
             <Animated>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Story</h2>

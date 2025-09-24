@@ -1,5 +1,5 @@
 import React from 'react';
-import { pawinLogoUrl } from './logo-image';
+import { getImagePath } from '../utils/paths';
 
 interface LogoProps {
   className?: string;
@@ -9,7 +9,7 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
     <img
-      src="/img/pawin_logo.png"
+      src={getImagePath('img/pawin_logo.png')}
       alt="PAWIN Logo"
       className={className}
       // Provide an approximate intrinsic size based on the logo's content

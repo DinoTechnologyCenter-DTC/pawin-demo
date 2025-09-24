@@ -1,5 +1,6 @@
 import React from 'react';
 import { TypeAnimation } from 'react-type-animation';
+import { getImagePath } from '../utils/paths';
 
 interface HeroProps {
   openJoinModal: (interest?: string) => void;
@@ -11,7 +12,7 @@ const Hero: React.FC<HeroProps> = ({ openJoinModal }) => {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: 'url(/img/student.jpg)' }}
+        style={{ backgroundImage: `url(${getImagePath('img/student.jpg')})` }}
       ></div>
       
       {/* Dark overlay for better text readability */}
