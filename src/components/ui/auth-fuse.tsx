@@ -405,7 +405,7 @@ function AuthFormContainer({ isSignIn, onToggle, onSubmit, setCurrentPage }: { i
             {/* PAWIN Logo Top - Pulled ultra-close with -mb-14 */}
             <div className="flex justify-center -mb-14 transition-all duration-500 relative z-10">
                 <button onClick={() => setCurrentPage('home')} className="hover:scale-105 transition-transform duration-500 focus-visible:outline-none focus:outline-none">
-                    <img src="/img/pawin_logo.png" className="h-40 w-auto brightness-110" alt="" aria-hidden="true" />
+                    <img src="/pawin-demo/img/pawin_logo.png" className="h-40 w-auto brightness-110" alt="" aria-hidden="true" />
                 </button>
             </div>
 

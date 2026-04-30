@@ -11,7 +11,7 @@ const Hero: React.FC<HeroProps> = ({ openJoinModal }) => {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: 'url(/img/student.jpg)' }}
+        style={{ backgroundImage: 'url(/pawin-demo/img/student.jpg)' }}
       ></div>
       
       {/* Fixed dark overlay for text contrast (keeps original hero look) */}

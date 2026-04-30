@@ -116,7 +116,7 @@ const Navbar1 = ({
               className="relative h-full flex items-center"
             >
               <img
-                src="/img/pawin_logo.png"
+                src="/pawin-demo/img/pawin_logo.png"
                 className="h-32 w-auto absolute top-1/2 -translate-y-1/2 left-0 max-w-none z-50"
                 alt="PAWIN Logo"
               />
@@ -188,7 +188,7 @@ const Navbar1 = ({
               className="relative h-full flex items-center"
             >
               <img
-                src="/img/pawin_logo.png"
+                src="/pawin-demo/img/pawin_logo.png"
                 className="h-28 w-auto absolute top-1/2 -translate-y-1/2 left-0 max-w-none z-50"
                 alt="PAWIN Logo"
               />
@@ -212,7 +212,7 @@ const Navbar1 = ({
                       <SheetTitle className="text-left">
                         <SheetClose asChild>
                           <button onClick={() => { setCurrentPage('home'); }} className="flex items-center gap-2">
-                            <img src="/img/pawin_logo.png" className="h-20 w-auto" alt="PAWIN Logo" />
+                            <img src="/pawin-demo/img/pawin_logo.png" className="h-20 w-auto" alt="PAWIN Logo" />
                           </button>
                         </SheetClose>
                       </SheetTitle>

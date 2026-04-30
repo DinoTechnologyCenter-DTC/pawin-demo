@@ -12,7 +12,7 @@ const Navbar1Demo: React.FC<Navbar1DemoProps> = ({ setCurrentPage, openJoinModal
   const demoData = {
     logo: {
       url: "#",
-      src: "/img/pawin_logo.png",
+      src: "/pawin-demo/img/pawin_logo.png",
       alt: "PAWIN",
       title: "PAWIN",
     },
