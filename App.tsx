@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Loader from './src/components/Loader';
-import Header from './src/components/Header';
+import { Navbar1Demo as Header } from './src/components/blocks/Navbar1Demo';
 import Hero from './src/components/Hero';
 import Nexus from './src/components/Nexus';
-import PathToSuccess from './src/components/PathToSuccess';
+import { StickyScrollRevealDemo as PathToSuccess } from './src/components/blocks/StickyScrollRevealDemo';
 import FeaturedInnovations from './src/components/FeaturedInnovations';
 import Testimonials from './src/components/Testimonials';
 import CTA from './src/components/CTA';
-import Footer from './src/components/Footer';
+import { StickyFooter } from './src/components/ui/sticky-footer';
 import Contact from './src/components/Contact';
 import About from './src/components/About';
 import Careers from './src/components/Careers';
@@ -16,11 +17,28 @@ import { Investors } from './src/components/Investors';
 import Community from './src/components/Community';
 import JoinModal from './src/components/JoinModal';
 import ParticleBackground from './src/components/ParticleBackground';
+import ScrollToTop from './src/components/ScrollToTop';
+import SignIn from './src/components/SignIn';
+import SignUp from './src/components/SignUp';
+import Stats from './src/components/Stats';
+import ProjectDetail from './src/components/ProjectDetail';
+import PrivacyPolicy from './src/components/PrivacyPolicy';
+import TermsOfService from './src/components/TermsOfService';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState('home');
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [joinModalConfig, setJoinModalConfig] = useState<{interest: string; jobTitle?: string}>({ interest: 'general' });
+
+  // Map state to URL paths
+  const setCurrentPage = (page: string) => {
+    if (page === 'home') navigate('/');
+    else navigate(`/${page}`);
+  };
+
+  const currentPage = location.pathname === '/' ? 'home' : location.pathname.substring(1);
+  const isAuthPage = location.pathname === '/signin' || location.pathname === '/signup';
 
   const openJoinModal = (interest = 'general', options: { jobTitle?: string } = {}) => {
     setJoinModalConfig({ interest, ...options });
@@ -33,63 +51,70 @@ const App: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentPage]);
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'innovators':
-        return <Innovators openJoinModal={openJoinModal} />;
-      case 'investors':
-        return <Investors openJoinModal={openJoinModal} />;
-      case 'community':
-        return <Community openJoinModal={openJoinModal} />;
-      case 'contact':
-        return <Contact />;
-      case 'about':
-        return <About />;
-      case 'careers':
-        return <Careers openJoinModal={openJoinModal} />;
-      case 'home':
-      default:
-        return (
-          <>
-            <Hero openJoinModal={openJoinModal} />
-            <Nexus />
-            <PathToSuccess />
-            <FeaturedInnovations />
-            <Testimonials />
-            <CTA openJoinModal={openJoinModal} />
-          </>
-        );
-    }
-  };
+  }, [location.pathname]);
 
   return (
     <>
       <Loader />
       <div className="min-h-screen flex flex-col bg-slate-900 text-slate-300 font-sans antialiased">
-        {/* Global Particle Background */}
-        <div className="fixed inset-0 -z-10">
-          <ParticleBackground />
-        </div>
+        {/* Global Particle Background (Hidden on Auth Pages) */}
+        {!isAuthPage && (
+          <div className="fixed inset-0 -z-10 text-slate-400 opacity-60">
+            <ParticleBackground />
+          </div>
+        )}
         
         {/* Semi-transparent overlay for better readability */}
-        <div className="fixed inset-0 -z-10 bg-slate-900/30 pointer-events-none"></div>
-        <Header 
-          currentPage={currentPage} 
-          setCurrentPage={setCurrentPage} 
-          openJoinModal={openJoinModal} 
-        />
+        <div className="fixed inset-0 -z-10 bg-slate-900/40 pointer-events-none"></div>
+        
+        {!isAuthPage && (
+          <Header 
+            currentPage={currentPage} 
+            setCurrentPage={setCurrentPage} 
+            openJoinModal={openJoinModal} 
+          />
+        )}
+
         <main className="flex-grow">
-          {renderPage()}
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Hero openJoinModal={openJoinModal} />
+                <Nexus />
+                <Stats />
+                <PathToSuccess />
+                <FeaturedInnovations />
+                <Testimonials />
+                <CTA openJoinModal={openJoinModal} />
+              </>
+            } />
+            <Route path="/signin" element={<SignIn setCurrentPage={setCurrentPage} />} />
+            <Route path="/signup" element={<SignUp setCurrentPage={setCurrentPage} />} />
+            <Route path="/projects/:name" element={<ProjectDetail />} />
+            <Route path="/innovators" element={<Innovators openJoinModal={openJoinModal} />} />
+            <Route path="/investors" element={<Investors openJoinModal={openJoinModal} />} />
+            <Route path="/community" element={<Community openJoinModal={openJoinModal} />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/careers" element={<Careers openJoinModal={openJoinModal} />} />
+            {/* Fallback to Home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </main>
-        <Footer setCurrentPage={setCurrentPage} />
+
+        {!isAuthPage && (
+          <StickyFooter setCurrentPage={setCurrentPage} />
+        )}
+
         <JoinModal 
           isOpen={isJoinModalOpen} 
           onClose={closeJoinModal} 
           interest={joinModalConfig.interest}
           jobTitle={joinModalConfig.jobTitle}
         />
+        <ScrollToTop />
       </div>
     </>
   );

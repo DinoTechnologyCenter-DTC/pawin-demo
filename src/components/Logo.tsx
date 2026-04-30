@@ -1,5 +1,5 @@
 import React from 'react';
-import { getImagePath } from '../utils/paths';
+import { OptimizedImage } from '../utils/imageUtils';
 
 interface LogoProps {
   className?: string;
@@ -8,14 +8,14 @@ interface LogoProps {
 //pawin logo
 const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
-    <img
-      src={getImagePath('img/pawin_logo.png')}
+    <OptimizedImage
+      src="/img/pawin_logo.png"
       alt="PAWIN Logo"
       className={className}
       // Provide an approximate intrinsic size based on the logo's content
       // to help the browser with layout, even though CSS will override it.
-      width="500" 
-      height="150"
+      width={500}
+      height={150}
     />
   );
 };

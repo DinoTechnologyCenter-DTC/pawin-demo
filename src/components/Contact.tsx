@@ -121,14 +121,14 @@ const Contact: React.FC = () => {
              <Animated delay={300}>
               <div className="rounded-xl overflow-hidden border border-slate-700/50 aspect-w-16 aspect-h-9">
                   <iframe 
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253556.7588722186!2d39.06627054694488!3d-6.815286592476572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185c4b099a61353d%3A0x72d3b259392f3928!2sDar%20es%20Salaam%2C%20Tanzania!5e0!3m2!1sen!2sus!4v1716309855321!5m2!1sen!2sus"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15847.2148!2d39.2397652!3d-6.7752571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185c4d005e7fb8c9%3A0xd973e8efb0166723!2sPAWIN%20PLC!5e0!3m2!1sen!2stz!4v1716309855321!5m2!1sen!2stz"
                       width="100%"
                       height="450"
                       style={{ border: 0 }}
                       allowFullScreen={false}
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
-                      title="PAWIN Location"
+                      title="PAWIN PLC Location"
                   ></iframe>
               </div>
              </Animated>

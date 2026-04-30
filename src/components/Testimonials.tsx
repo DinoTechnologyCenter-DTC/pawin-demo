@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Animated from './Animated';
 
@@ -11,13 +10,13 @@ interface TestimonialCardProps {
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, avatar, name, role }) => {
   return (
-    <div className="bg-slate-800 p-8 rounded-xl border border-slate-700 h-full">
-      <p className="text-slate-300 mb-6 italic">"{quote}"</p>
+    <div className="bg-accent/10 dark:bg-slate-800/40 p-8 rounded-xl border border-border h-full transition-all duration-300 hover:shadow-lg backdrop-blur-sm">
+      <p className="text-muted-foreground mb-6 italic leading-relaxed">"{quote}"</p>
       <div className="flex items-center">
-        <img src={avatar} alt={name} className="w-12 h-12 rounded-full mr-4" />
+        <img src={avatar} alt={name} className="w-12 h-12 rounded-full mr-4 border border-border" />
         <div>
-          <p className="font-bold text-white">{name}</p>
-          <p className="text-sm text-amber-400">{role}</p>
+          <p className="font-bold text-foreground">{name}</p>
+          <p className="text-sm font-semibold text-primary">{role}</p>
         </div>
       </div>
     </div>
@@ -47,7 +46,7 @@ const Testimonials: React.FC = () => {
   ];
 
   return (
-    <section className="py-20">
+    <section className="py-20 bg-slate-900">
       <div className="container mx-auto px-6">
         <Animated className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Voices of Our Community</h2>

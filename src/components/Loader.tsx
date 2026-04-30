@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { getImagePath } from '../utils/paths';
 
 const Loader: React.FC = () => {
   const [show, setShow] = useState(true);
@@ -45,7 +43,7 @@ const Loader: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] rounded-full opacity-20 blur-xl"></div>
         <div className="relative z-10 p-6">
           <img 
-            src={getImagePath('img/logo-icon.png')}
+            src="/img/logo-icon.png" 
             alt=""
             className="h-32 w-32 md:h-40 md:w-40 animate-pulse"
             style={{

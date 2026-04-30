@@ -1,6 +1,6 @@
 import React from 'react';
-import { OptimizedImage } from '../utils/imageUtils';
-import { OptimizedBackground } from './OptimizedBackground';
+import { OptimizedImage } from '../../utils/imageUtils';
+import { OptimizedBackground } from '../OptimizedBackground';
 
 const ImageExample: React.FC = () => {
   return (
