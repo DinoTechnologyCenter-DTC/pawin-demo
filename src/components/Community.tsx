@@ -1,6 +1,7 @@
 
-import React from 'react';
-import { MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, X } from 'lucide-react';
 import { CalendarIcon, ChatIcon, LinkedInIcon, XIcon, FintechIcon, HealthtechIcon, CleanTechIcon } from './icons';
 import Animated from './Animated';
 import { Timeline, type TimelineItem } from '@/components/ui/timeline';
@@ -11,6 +12,9 @@ interface CommunityProps {
 
 
 const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
+  const [activeTab, setActiveTab] = useState<'events' | 'moments'>('events');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   return (
     <div className="bg-slate-900 text-slate-300">
       {/* Hero Section */}
@@ -23,21 +27,41 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
           <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-slate-300">
             Welcome to the heart of PAWIN. A vibrant ecosystem of innovators, experts, and investors collaborating to build the future of Africa.
           </p>
-
         </div>
       </section>
 
-      {/* Upcoming Meetups */}
+      {/* Main Content Area with Tabs */}
       <section className="py-20">
         <div className="container mx-auto px-6">
           <Animated className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Upcoming Meetups</h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Connect, learn, and grow with our curated events.
-            </p>
+            {/* Tabs */}
+            <div className="inline-flex gap-6 md:gap-12">
+              <button 
+                onClick={() => setActiveTab('events')}
+                className={`text-xl md:text-2xl font-bold pb-2 transition-all duration-300 border-b-2 ${activeTab === 'events' ? 'text-white border-[#ffae1f]' : 'text-slate-400 border-transparent hover:text-slate-200 hover:border-slate-500'}`}
+              >
+                Upcoming Meetups
+              </button>
+              <button 
+                onClick={() => setActiveTab('moments')}
+                className={`text-xl md:text-2xl font-bold pb-2 transition-all duration-300 border-b-2 ${activeTab === 'moments' ? 'text-white border-[#ffae1f]' : 'text-slate-400 border-transparent hover:text-slate-200 hover:border-slate-500'}`}
+              >
+                Moments
+              </button>
+            </div>
           </Animated>
-          <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
-            <div className="relative space-y-6">
+
+          <div className="max-w-4xl mx-auto px-4 md:px-8 py-4 min-h-[400px] overflow-hidden">
+            <AnimatePresence mode="wait">
+              {activeTab === 'events' ? (
+                <motion.div 
+                  key="events"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative space-y-6"
+                >
               
               {/* Event 1 - Pawin Event */}
               <div className="relative flex gap-4 md:gap-8 items-start group">
@@ -115,10 +139,76 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
                 </div>
               </div>
 
-            </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="moments"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="grid grid-cols-2 gap-4 md:gap-8">
+                  {/* Real images for Moments */}
+                  {[
+                    "/moment-1.jpeg",
+                    "/moment-2.jpeg"
+                  ].map((imgSrc, index) => (
+                    <div 
+                      key={index} 
+                      className="aspect-[4/3] md:aspect-video rounded-xl overflow-hidden bg-slate-800/50 border border-slate-700/50 group relative shadow-lg cursor-pointer"
+                      onClick={() => setSelectedImage(imgSrc)}
+                    >
+                      <img 
+                        src={imgSrc} 
+                        alt="Community Moment" 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 md:p-6">
+                        <span className="text-white font-medium text-sm md:text-base">Event Highlight</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-8 text-center text-slate-400 text-sm">
+                  <p>More photos and memories will be uploaded soon!</p>
+                </div>
+              </motion.div>
+            )}
+            </AnimatePresence>
           </div>
         </div>
       </section>
+
+      {/* Image Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/90 backdrop-blur-sm p-4 md:p-8"
+            onClick={() => setSelectedImage(null)}
+          >
+            <button 
+              className="absolute top-6 right-6 md:top-8 md:right-8 text-slate-400 hover:text-white transition-colors bg-slate-800/50 hover:bg-slate-800 p-2 rounded-full"
+              onClick={() => setSelectedImage(null)}
+            >
+              <X className="w-6 h-6 md:w-8 md:h-8" />
+            </button>
+            <motion.img
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              src={selectedImage}
+              alt="Full view"
+              className="max-w-full max-h-[90vh] rounded-2xl shadow-2xl border border-slate-800 object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
