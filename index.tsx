@@ -14,7 +14,7 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/pawin-demo">
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </React.StrictMode>

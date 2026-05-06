@@ -21,7 +21,7 @@ const teamMembers: TeamMember[] = [
         avatar: "https://picsum.photos/id/1012/200/200",
         name: "Christopher Sinkamba",
         role: "Founder & CEO",
-        bio: "Christopher Sinkamba is a serial entrepreneur with a passion for leveraging technology to solve systemic challenges. Witnessing the untapped potential of innovators across Tanzania, she founded PAWIN to create the ecosystem she wished she had as a young founder. Her vision is to build a self-sustaining engine for African growth, powered by local talent and global collaboration.",
+        bio: "Christopher Sinkamba is a serial entrepreneur with a passion for leveraging technology to solve systemic challenges. Witnessing the untapped potential of innovators across Tanzania, he founded PAWIN to create the ecosystem he wished he had as a young founder. His vision is to build a self-sustaining engine for African growth, powered by local talent and global collaboration.",
         socials: { linkedin: "#", x: "#", instagram: "#" }
     }
 ];
@@ -313,7 +313,7 @@ const About: React.FC = () => {
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <Animated className="relative group">
-              <img src="/pawin-demo/img/Pawin banner.jpg" alt="PAWIN Logo" className="rounded-xl shadow-2xl w-full h-auto" />
+              <img src="/img/Pawin banner.jpg" alt="PAWIN Logo" className="rounded-xl shadow-2xl w-full h-auto" />
             </Animated> 
             <Animated>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Story</h2>
@@ -401,7 +401,7 @@ const About: React.FC = () => {
             viewport={{ once: true }}
           >
             <img 
-              src="/pawin-demo/img/pawin_team_landscape.png" 
+              src="/img/pawin_team_landscape.png" 
               alt="The PAWIN Team at our Headquarters" 
               className="w-full h-full object-cover object-top"
             />

@@ -14,7 +14,7 @@ const projectData: Record<string, {
     title: 'Business Strategy & Consultancy',
     category: 'Strategy',
     description: 'We deliver excellence with international standards, helping organizations navigate complex market dynamics. Our strategic advisory services focus on long-term sustainability, operational optimization, and competitive positioning within the pan-African landscape.',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     features: [
       'Strategic Market Analysis',
       'Operational Excellence Audits',
@@ -26,7 +26,7 @@ const projectData: Record<string, {
     title: 'E-Commerce & Digital Transformation',
     category: 'Digital',
     description: 'Connecting Africa to the global economy through robust digital infrastructure. We specialize in transforming traditional business models into digital-first powerhouses, leveraging e-commerce, cloud computing, and data-driven insights.',
-    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     features: [
       'Full-stack E-commerce Deployment',
       'Digital Payment Integration',
@@ -38,7 +38,7 @@ const projectData: Record<string, {
     title: 'Training, Mentorship & Capacity Building',
     category: 'Education',
     description: 'Unlocking hidden potential through structured guidance and professional development. Our programs are designed to equip the next generation of African leaders and entrepreneurs with the technical and soft skills required for global success.',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     features: [
       'Executive Leadership Coaching',
       'Entrepreneurship Bootcamps',
@@ -50,7 +50,7 @@ const projectData: Record<string, {
     title: 'Agriculture, Mining & Construction',
     category: 'Development',
     description: "Driving Africa's sustainable development by modernizing core industries. We integrate technology and sustainable practices into agriculture, extraction, and infrastructure to create value that lasts for generations.",
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     features: [
       'Agri-Tech Implementation',
       'Sustainable Mining Solutions',
@@ -62,7 +62,7 @@ const projectData: Record<string, {
     title: 'Partnerships, Grants & Investment',
     category: 'Growth',
     description: 'Building bridges for growth and impact by connecting high-potential projects with strategic capital. We facilitate international partnerships, manage grant acquisitions, and prepare organizations for multi-stage investment rounds.',
-    image: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     features: [
       'Investment Readiness Prep',
       'Grant Writing & Management',

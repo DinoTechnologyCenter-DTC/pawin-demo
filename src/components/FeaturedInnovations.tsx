@@ -31,7 +31,7 @@ const InnovationCard: React.FC<InnovationCardProps> = ({ image, category, title,
 const FeaturedInnovations: React.FC = () => {
   const innovations = [
     {
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Innovation",
       title: "Innovation & Entrepreneurship",
       description: "Empowering minds to create lasting solutions through cutting-edge entrepreneurial support.",
@@ -39,7 +39,7 @@ const FeaturedInnovations: React.FC = () => {
       slug: "innovation-entrepreneurship"
     },
     {
-      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Strategy",
       title: "Business Strategy & Consultancy",
       description: "Delivering excellence with international standards to drive business growth.",
@@ -47,7 +47,7 @@ const FeaturedInnovations: React.FC = () => {
       slug: "business-strategy-consultancy"
     },
     {
-      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Digital",
       title: "E-Commerce & Digital Transformation",
       description: "Connecting Africa to the global economy through modern digital infrastructure.",
@@ -55,7 +55,7 @@ const FeaturedInnovations: React.FC = () => {
       slug: "ecommerce-digital-transformation"
     },
     {
-      image: "https://images.unsplash.com/photo-1524178232363-1fb28f74b0cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Education",
       title: "Training, Mentorship & Capacity Building",
       description: "Unlocking hidden potential through personalized mentorship and professional training.",
@@ -63,7 +63,7 @@ const FeaturedInnovations: React.FC = () => {
       slug: "training-mentorship-capacity-building"
     },
     {
-      image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Development",
       title: "Agriculture, Mining & Construction",
       description: "Driving Africa’s sustainable development through core industrial innovation.",
@@ -71,13 +71,14 @@ const FeaturedInnovations: React.FC = () => {
       slug: "agriculture-mining-construction"
     },
     {
-      image: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Growth",
       title: "Partnerships, Grants & Investment",
       description: "Building bridges for growth and impact through strategic financial connections.",
       categoryColor: "bg-red-500/30 text-red-300",
       slug: "partnerships-grants-investment"
     }
+
   ];
 
   const navigate = useNavigate();
