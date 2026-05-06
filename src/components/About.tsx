@@ -403,7 +403,7 @@ const About: React.FC = () => {
             viewport={{ once: true }}
           >
             <img 
-              src="/img/pawin_team_landscape.png" 
+              src="/about_image.jpeg" 
               alt="The PAWIN Team at our Headquarters" 
               className="w-full h-full object-cover object-top"
             />
