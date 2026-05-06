@@ -62,6 +62,10 @@ const Navbar1Demo: React.FC<Navbar1DemoProps> = ({ setCurrentPage, openJoinModal
         url: "about",
       },
       {
+        title: "Community",
+        url: "community",
+      },
+      {
         title: "Contact",
         url: "contact",
       },
