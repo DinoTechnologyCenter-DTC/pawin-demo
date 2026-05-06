@@ -1,101 +1,13 @@
 
 import React from 'react';
+import { MapPin } from 'lucide-react';
 import { CalendarIcon, ChatIcon, LinkedInIcon, XIcon, FintechIcon, HealthtechIcon, CleanTechIcon } from './icons';
 import Animated from './Animated';
+import { Timeline, type TimelineItem } from '@/components/ui/timeline';
 
 interface CommunityProps {
   openJoinModal: (interest?: string) => void;
 }
-
-const events = [
-  {
-    date: 'JUL',
-    day: '28',
-    title: 'AI in AgriTech: A Fireside Chat',
-    type: 'Virtual Meetup',
-    description: 'Join us for an insightful conversation with industry leaders on how AI is transforming agriculture in Africa.'
-  },
-  {
-    date: 'AUG',
-    day: '15',
-    title: 'Founder Pitch Practice & Feedback',
-    type: 'In-Person Workshop @ PAWIN Hub',
-    description: 'An exclusive, hands-on workshop for our innovators to refine their pitch with direct feedback from venture capitalists.'
-  },
-  {
-    date: 'SEP',
-    day: '05',
-    title: 'Scaling Your SaaS: Growth Strategies',
-    type: 'Webinar',
-    description: 'Learn proven strategies for customer acquisition, retention, and scaling your software-as-a-service business.'
-  }
-];
-
-const members = [
-  {
-    avatar: "https://picsum.photos/id/1011/200/200",
-    name: "Maria Garcia",
-    role: "Community Mentor & Growth Marketer",
-    bio: "Maria is a seasoned growth marketer who has scaled three startups from seed to Series B. She specializes in B2B SaaS and is passionate about helping founders build sustainable growth engines.",
-    expertise: ['Growth Hacking', 'SEO', 'Product-Led Growth'],
-    socials: { linkedin: "#", x: "#" }
-  },
-  {
-    avatar: "https://picsum.photos/id/1012/200/200",
-    name: "John Doe",
-    role: "CTO in Residence",
-    bio: "With over 15 years of experience building scalable systems, John provides technical guidance to our portfolio companies, helping them navigate complex architectural decisions and build world-class products.",
-    expertise: ['System Architecture', 'Cloud Infrastructure', 'DevOps'],
-    socials: { linkedin: "#", x: "#" }
-  },
-  {
-    avatar: "https://picsum.photos/id/1025/200/200",
-    name: "Fatima Al-Sayed",
-    role: "Legal & Compliance Advisor",
-    bio: "Fatima is a corporate lawyer specializing in tech startups. She helps innovators navigate the legal landscape of fundraising, intellectual property, and international expansion.",
-    expertise: ['Venture Deals', 'IP Law', 'Corporate Governance'],
-    socials: { linkedin: "#", x: "#" }
-  }
-];
-
-const hubs = [
-    { icon: <FintechIcon />, title: "FinTech Frontiers", members: 128, discussions: 42 },
-    { icon: <HealthtechIcon />, title: "HealthTech Innovators", members: 95, discussions: 28 },
-    { icon: <CleanTechIcon />, title: "Sustainable Futures", members: 210, discussions: 76 },
-];
-
-
-const EventCard: React.FC<typeof events[0]> = ({ date, day, title, type, description }) => (
-  <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 flex space-x-6 items-start hover:border-amber-500 transition-colors duration-300">
-    <div className="flex-shrink-0 text-center bg-slate-700 rounded-lg p-3 w-20">
-      <p className="text-red-400 font-bold text-sm">{date}</p>
-      <p className="text-white font-extrabold text-3xl">{day}</p>
-    </div>
-    <div>
-      <p className="text-sm text-amber-400 font-semibold mb-1">{type}</p>
-      <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-      <p className="text-slate-400 leading-relaxed">{description}</p>
-    </div>
-  </div>
-);
-
-const MemberCard: React.FC<typeof members[0]> = ({ avatar, name, role, bio, expertise, socials }) => (
-    <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 flex flex-col text-center items-center h-full">
-        <img src={avatar} alt={name} className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-slate-600" />
-        <h4 className="text-xl font-bold text-white">{name}</h4>
-        <p className="text-amber-400 text-sm mb-3">{role}</p>
-        <p className="text-slate-400 text-sm mb-4 flex-grow">{bio}</p>
-        <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {expertise.map(skill => (
-                <span key={skill} className="bg-slate-700 text-slate-300 text-xs font-medium px-2.5 py-1 rounded-full">{skill}</span>
-            ))}
-        </div>
-        <div className="flex space-x-4 mt-auto">
-            <a href={socials.linkedin} className="text-slate-400 hover:text-white transition-colors"><LinkedInIcon /></a>
-            <a href={socials.x} className="text-slate-400 hover:text-white transition-colors"><XIcon /></a>
-        </div>
-    </div>
-);
 
 
 const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
@@ -126,53 +38,58 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
               Connect, learn, and grow with our curated events.
             </p>
           </Animated>
-          <div className="max-w-4xl mx-auto space-y-6">
-            {events.map((event, index) => <Animated key={event.title} delay={index * 150}><EventCard {...event} /></Animated>)}
-          </div>
-        </div>
-      </section>
+          <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
+            <div className="relative space-y-6">
+              
+              {/* Event 1 - Pawin Event */}
+              <div className="relative flex gap-4 md:gap-8 items-start group">
+                {/* Left side: Date & Time */}
+                <div className="hidden md:flex w-32 shrink-0 flex-col items-end text-right pt-3">
+                  <span className="text-xl font-bold text-slate-200">07 May</span>
+                  <span className="text-xs font-medium text-slate-400 mt-1">Thu at 02:00 PM 2026</span>
+                </div>
 
-      {/* Meet Our Community Pillars */}
-      <section className="py-20 bg-slate-900">
-        <div className="container mx-auto px-6">
-          <Animated className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Meet Our Community Pillars</h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              The mentors, advisors, and experts dedicated to helping our innovators succeed.
-            </p>
-          </Animated>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {members.map((member, index) => <Animated key={member.name} delay={index * 150}><MemberCard {...member} /></Animated>)}
+                {/* Center: Line & Icon */}
+                <div className="relative flex flex-col items-center self-stretch">
+                  {/* The vertical line extending downwards (no line for the last item, or fades out) */}
+                  <div className="absolute top-10 bottom-[-1.5rem] w-px bg-amber-500/30 group-hover:bg-amber-500/60 transition-colors" />
+                  
+                  {/* The icon circle */}
+                  <div className="relative z-10 w-10 h-10 rounded-full bg-slate-900 border-2 border-amber-500 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(245,158,11,0.4)]">
+                    <div className="w-3 h-3 rounded-full bg-amber-500 animate-pulse" />
+                  </div>
+                </div>
+
+                {/* Right side: Card Content */}
+                <div className="flex-1 pb-4">
+                  <div className="bg-slate-800/40 border border-amber-500/50 hover:border-amber-400 rounded-xl p-5 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-slate-800/60">
+                    <div className="md:hidden text-xs text-amber-400 font-semibold mb-2">
+                      07 May 2026 • 02:00 PM
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Pawin Event</h3>
+                    <p className="text-slate-300 leading-relaxed mb-4 text-sm md:text-base">
+                      Let's start our journey with PAWIN.
+                    </p>
+                    <div className="flex items-center gap-1.5 text-sm text-slate-400">
+                      <MapPin className="w-4 h-4 text-amber-500 shrink-0" />
+                      <a 
+                        href="https://www.google.com/maps/place/Letisia+Tower,+Dar+es+Salaam/@-6.7752958,39.2418444,18.88z/data=!4m15!1m8!3m7!1s0x185c4c2151019b1d:0x4b3806976264f744!2sLetisia+Tower,+Dar+es+Salaam!3b1!8m2!3d-6.7752571!4d39.2423401!16s%2Fg%2F12hvnf4s0!3m5!1s0x185c4c2151019b1d:0x4b3806976264f744!8m2!3d-6.7752571!4d39.2423401!16s%2Fg%2F12hvnf4s0?entry=ttu&g_ep=EgoyMDI2MDUwMi4wIKXMDSoASAFQAw%3D%3D"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-amber-400 hover:underline transition-colors"
+                      >
+                        CH2 Third Floor, Letisia Tower, Dar es Salaam
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Note: Additional events are commented out per user request, but the structure is established above for future use. */}
+
+            </div>
           </div>
         </div>
-      </section>
-      
-      {/* Community Hubs */}
-      <section className="py-20">
-          <div className="container mx-auto px-6">
-              <Animated className="text-center mb-12">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Join the Discussion</h2>
-                  <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                      Dive into topic-specific hubs to share knowledge, ask questions, and collaborate with peers.
-                  </p>
-              </Animated>
-              <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                  {hubs.map((hub, index) => (
-                      <Animated key={hub.title} delay={index * 150}>
-                        <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center h-full flex flex-col">
-                            <div className="text-amber-400 w-12 h-12 flex items-center justify-center mx-auto mb-4">
-                                {hub.icon}
-                            </div>
-                            <h3 className="text-xl font-bold text-white mb-2">{hub.title}</h3>
-                            <p className="text-sm text-slate-400 mb-4 flex-grow">{hub.members} members &middot; {hub.discussions} discussions</p>
-                             <button className="font-semibold text-amber-400 hover:text-white transition-colors duration-200 text-sm mt-auto">
-                                Enter Hub &rarr;
-                            </button>
-                        </div>
-                      </Animated>
-                  ))}
-              </div>
-          </div>
       </section>
 
     </div>
