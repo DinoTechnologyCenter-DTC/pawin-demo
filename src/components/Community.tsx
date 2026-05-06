@@ -159,7 +159,7 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
                 transition={{ duration: 0.3 }}
               >
                 <div 
-                  className="flex justify-center items-center w-full min-h-[500px] mt-8 overflow-hidden"
+                  className="flex justify-center items-center w-full min-h-[350px] md:min-h-[500px] mt-8 overflow-hidden"
                   style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}
                 >
                   <CardStack
@@ -188,8 +188,13 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
                     intervalMs={3000}
                     pauseOnHover
                     showDots
-                    cardWidth={isMobile ? Math.min(winWidth * 0.85, 340) : 520}
-                    cardHeight={isMobile ? 420 : 320}
+                    cardWidth={isMobile ? Math.min(winWidth * 0.75, 280) : 520}
+                    cardHeight={isMobile ? 200 : 320}
+                    onCardClick={(item) => {
+                      if (item.imageSrc) {
+                        setSelectedImage(item.imageSrc);
+                      }
+                    }}
                   />
                 </div>
               </motion.div>

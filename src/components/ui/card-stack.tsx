@@ -61,6 +61,7 @@ export type CardStackProps<T extends CardStackItem> = {
 
   /** Hooks */
   onChangeIndex?: (index: number, item: T) => void;
+  onCardClick?: (item: T) => void;
 
   /** Custom renderer (optional) */
   renderCard?: (item: T, state: { active: boolean }) => React.ReactNode;
@@ -112,6 +113,7 @@ export function CardStack<T extends CardStackItem>({
   className,
 
   onChangeIndex,
+  onCardClick,
   renderCard,
 }: CardStackProps<T>) {
   const reduceMotion = useReducedMotion();
@@ -310,7 +312,13 @@ export function CardStack<T extends CardStackItem>({
                   }}
                   // translateZ via style transform (kept stable w/ motion values above)
                   // We apply translateZ by using a CSS transform in a child wrapper.
-                  onClick={() => setActive(i)}
+                  onClick={() => {
+                    if (isActive) {
+                      onCardClick?.(item);
+                    } else {
+                      setActive(i);
+                    }
+                  }}
                   {...dragProps}
                 >
                   <div
@@ -391,20 +399,17 @@ function DefaultFanCard({ item }: { item: CardStackItem; active: boolean }) {
         )}
       </div>
 
-      {/* subtle gradient overlay at bottom for text readability */}
+      {/* subtle gradient overlay at bottom for text readability 
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+      */}
 
-      {/* content */}
+      {/* content 
       <div className="relative z-10 flex h-full flex-col justify-end p-6">
         <div className="truncate text-xl font-bold text-white mb-2">
           {item.title}
         </div>
-        {item.description ? (
-          <div className="line-clamp-2 text-sm text-slate-300 leading-relaxed">
-            {item.description}
-          </div>
-        ) : null}
       </div>
+      */}
     </div>
   );
 }
