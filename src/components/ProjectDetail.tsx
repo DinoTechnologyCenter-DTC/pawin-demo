@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Animated from './Animated';
 
 const projectData: Record<string, {
@@ -89,7 +90,13 @@ const ProjectDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <motion.div 
+      key={name}
+      initial={{ opacity: 0, filter: "blur(10px)", scale: 0.98 }}
+      animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="min-h-screen bg-slate-900 text-white"
+    >
       {/* Hero Section */}
       <div className="relative h-[60vh] w-full">
         <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
@@ -134,7 +141,7 @@ const ProjectDetail: React.FC = () => {
           </Animated>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
