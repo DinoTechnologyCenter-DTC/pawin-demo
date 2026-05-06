@@ -1,10 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, X } from 'lucide-react';
 import { CalendarIcon, ChatIcon, LinkedInIcon, XIcon, FintechIcon, HealthtechIcon, CleanTechIcon } from './icons';
 import Animated from './Animated';
 import { Timeline, type TimelineItem } from '@/components/ui/timeline';
+import { CardStack, type CardStackItem } from '@/components/ui/card-stack';
 
 interface CommunityProps {
   openJoinModal: (interest?: string) => void;
@@ -14,6 +15,15 @@ interface CommunityProps {
 const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
   const [activeTab, setActiveTab] = useState<'events' | 'moments'>('events');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [winWidth, setWinWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWinWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = winWidth < 768;
 
   return (
     <div className="bg-slate-900 text-slate-300">
@@ -148,30 +158,39 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="grid grid-cols-2 gap-4 md:gap-8">
-                  {/* Real images for Moments */}
-                  {[
-                    "/moment-1.jpeg",
-                    "/moment-2.jpeg"
-                  ].map((imgSrc, index) => (
-                    <div 
-                      key={index} 
-                      className="aspect-[4/3] md:aspect-video rounded-xl overflow-hidden bg-slate-800/50 border border-slate-700/50 group relative shadow-lg cursor-pointer"
-                      onClick={() => setSelectedImage(imgSrc)}
-                    >
-                      <img 
-                        src={imgSrc} 
-                        alt="Community Moment" 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 md:p-6">
-                        <span className="text-white font-medium text-sm md:text-base">Event Highlight</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-8 text-center text-slate-400 text-sm">
-                  <p>More photos and memories will be uploaded soon!</p>
+                <div 
+                  className="flex justify-center items-center w-full min-h-[500px] mt-8 overflow-hidden"
+                  style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}
+                >
+                  <CardStack
+                    items={[
+                      {
+                        id: 1,
+                        title: "PAWIN Meetup",
+                        description: "An incredible start to our journey at Letisia Tower.",
+                        imageSrc: "/moment-1.jpeg",
+                      },
+                      {
+                        id: 2,
+                        title: "Innovators Gathering",
+                        description: "Discussing the future of African Tech.",
+                        imageSrc: "/moment-2.jpeg",
+                      },
+                      {
+                        id: 3,
+                        title: "Community Outreach",
+                        description: "Building strong foundations together.",
+                        imageSrc: "/moment-3.jpeg",
+                      }
+                    ]}
+                    initialIndex={0}
+                    autoAdvance
+                    intervalMs={3000}
+                    pauseOnHover
+                    showDots
+                    cardWidth={isMobile ? Math.min(winWidth * 0.85, 340) : 520}
+                    cardHeight={isMobile ? 420 : 320}
+                  />
                 </div>
               </motion.div>
             )}
