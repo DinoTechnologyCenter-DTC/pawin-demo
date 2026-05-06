@@ -23,9 +23,7 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
           <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-slate-300">
             Welcome to the heart of PAWIN. A vibrant ecosystem of innovators, experts, and investors collaborating to build the future of Africa.
           </p>
-          <button onClick={() => openJoinModal('community')} className="bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-semibold px-8 py-3 rounded-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105">
-            Join the Conversation
-          </button>
+
         </div>
       </section>
 
@@ -89,7 +87,7 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
               <div className="relative flex gap-4 md:gap-8 items-start group opacity-80">
                 {/* Left side: Date & Time */}
                 <div className="hidden md:flex w-32 shrink-0 flex-col items-end text-right pt-3">
-                  <span className="text-xl font-bold text-slate-400">TBA</span>
+                  <span className="text-xl font-bold text-slate-400">Soon</span>
                   <span className="text-xs font-medium text-slate-500 mt-1">Stay tuned</span>
                 </div>
 
