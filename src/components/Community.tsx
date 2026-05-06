@@ -85,7 +85,37 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
                 </div>
               </div>
 
-              {/* Note: Additional events are commented out per user request, but the structure is established above for future use. */}
+              {/* Event 2 - Upcoming / TBA */}
+              <div className="relative flex gap-4 md:gap-8 items-start group opacity-80">
+                {/* Left side: Date & Time */}
+                <div className="hidden md:flex w-32 shrink-0 flex-col items-end text-right pt-3">
+                  <span className="text-xl font-bold text-slate-400">TBA</span>
+                  <span className="text-xs font-medium text-slate-500 mt-1">Stay tuned</span>
+                </div>
+
+                {/* Center: Line & Icon */}
+                <div className="relative flex flex-col items-center self-stretch">
+                  {/* No line extending down since it's the last item */}
+                  
+                  {/* The icon circle */}
+                  <div className="relative z-10 w-10 h-10 rounded-full bg-slate-900 border-2 border-slate-600 flex items-center justify-center shrink-0 mt-0">
+                    <CalendarIcon className="w-4 h-4 text-slate-500" />
+                  </div>
+                </div>
+
+                {/* Right side: Card Content */}
+                <div className="flex-1 pb-4">
+                  <div className="bg-slate-800/20 border border-slate-700 border-dashed rounded-xl p-5 transition-all duration-300 hover:border-slate-500">
+                    <div className="md:hidden text-xs text-slate-500 font-semibold mb-2">
+                      Upcoming
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-300 mb-2">Get ready for the next Event</h3>
+                    <p className="text-slate-500 leading-relaxed text-sm md:text-base">
+                      More exciting updates, pitch sessions, and meetups are on the way.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>
