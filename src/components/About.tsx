@@ -267,12 +267,12 @@ const TeamMemberModal: React.FC<{ member: TeamMember; onClose: () => void; }> = 
 
 const ValueCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => {
   return (
-    <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 h-full">
-       <div className="bg-slate-700/50 rounded-lg w-12 h-12 flex items-center justify-center mb-4">
+    <div className="bg-slate-800/40 p-4 md:p-8 rounded-xl border border-slate-800 hover:border-[#ffae1f] transition-all duration-300 transform hover:-translate-y-2 h-full backdrop-blur-sm shadow-sm hover:shadow-md flex flex-col">
+       <div className="bg-slate-700/50 rounded-lg w-10 h-10 md:w-12 md:h-12 flex items-center justify-center mb-4 md:mb-6 text-[#ffae1f] shrink-0">
         {icon}
       </div>
-      <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-      <p className="text-slate-400">{children}</p>
+      <h3 className="text-base md:text-xl font-bold text-white mb-2 md:mb-3">{title}</h3>
+      <p className="text-slate-400 leading-relaxed text-[11px] md:text-base line-clamp-4 md:line-clamp-none">{children}</p>
     </div>
   )
 }
@@ -331,21 +331,23 @@ const About: React.FC = () => {
       {/* Mission, Vision, Values */}
       <section className="py-20 bg-slate-900">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8 text-left">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 text-left">
             <Animated delay={100}>
-              <ValueCard icon={<TargetIcon className="w-8 h-8 text-[#ffae1f]" />} title="Our Mission">
+              <ValueCard icon={<TargetIcon className="w-6 h-6 md:w-8 md:h-8 text-[#ffae1f]" />} title="Our Mission">
                 To empower African innovators by providing them with the resources, capital, and community needed to transform their ideas into successful, impactful ventures.
               </ValueCard>
             </Animated>
             <Animated delay={200}>
-              <ValueCard icon={<EyeIcon className="w-8 h-8 text-[#fe4f51]" />} title="Our Vision">
+              <ValueCard icon={<EyeIcon className="w-6 h-6 md:w-8 md:h-8 text-[#fe4f51]" />} title="Our Vision">
                 To be the leading catalyst for innovation and entrepreneurship in Africa, fostering a future where technology and local talent drive sustainable development.
               </ValueCard>
             </Animated>
-            <Animated delay={300}>
-              <ValueCard icon={<HeartIcon className="w-8 h-8 text-[#ffae1f]" />} title="Our Values">
-                We are guided by collaboration, integrity, and a relentless belief in the power of innovation to create a better world for all.
-              </ValueCard>
+            <Animated delay={300} className="col-span-2 md:col-span-1 flex justify-center">
+              <div className="w-full max-w-none">
+                <ValueCard icon={<HeartIcon className="w-6 h-6 md:w-8 md:h-8 text-[#ffae1f]" />} title="Our Values">
+                  We are guided by collaboration, integrity, and a relentless belief in the power of innovation to create a better world for all.
+                </ValueCard>
+              </div>
             </Animated>
           </div>
         </div>
