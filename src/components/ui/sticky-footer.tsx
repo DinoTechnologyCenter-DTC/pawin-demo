@@ -47,15 +47,15 @@ export function StickyFooter({ className, setCurrentPage, ...props }: StickyFoot
 							<div className="bg-[radial-gradient(50%_50%_at_50%_50%,rgba(255,174,31,0.04)_0,rgba(255,174,31,0.01)_80%,transparent_100%)] absolute top-0 left-0 h-320 w-60 -translate-y-87.5 -rotate-45 rounded-full" />
 						</div>
 						{/* Branding and Links Wrapper */}
-						<div className="max-w-[1280px] mx-auto w-full mt-8 flex flex-col md:flex-row xl:mt-0 justify-between items-center md:items-start gap-12 text-center md:text-left">
-							<AnimatedContainer className="w-full max-w-sm space-y-6">
-								<div className="flex justify-center md:justify-start">
-									<Logo className="h-28 w-auto" />
+						<div className="max-w-[1280px] mx-auto w-full mt-8 flex flex-col md:flex-row xl:mt-0 justify-between items-start gap-12 text-left">
+							<AnimatedContainer className="w-full max-w-sm space-y-3 md:-ml-12 lg:-ml-24 xl:-ml-32 2xl:-ml-48">
+								<div className="flex justify-start -ml-4 md:-ml-6">
+									<Logo className="h-16 md:h-20 w-auto object-contain object-left" />
 								</div>
-								<p className="text-slate-400 text-sm leading-relaxed max-w-xs mx-auto md:mx-0">
-									Innovative platform empowering innovators, investors, and community with seamless connections and opportunities worldwide.
+								<p className="text-slate-400 text-sm leading-relaxed max-w-xs">
+									Innovative platform empowering innovators, investors, and youth community with seamless connections and opportunities worldwide.
 								</p>
-								<div className="flex flex-wrap justify-center md:justify-start gap-4">
+								<div className="flex flex-wrap justify-start gap-4 pt-3">
 									{socialLinks.map((link) => (
 										<a key={link.title} href={link.href} target="_blank" rel="noopener noreferrer">
 											<Button size="icon" variant="outline" className="size-10 rounded-full border-slate-700 hover:bg-slate-800 hover:text-[#ffae1f] transition-all">
