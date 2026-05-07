@@ -202,6 +202,7 @@ function SignUpForm({ setCurrentPage }: { setCurrentPage: (page: string) => void
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
+    username: "",
     email: "",
     password: "",
     selection: ""
@@ -229,6 +230,7 @@ function SignUpForm({ setCurrentPage }: { setCurrentPage: (page: string) => void
       options: {
         data: {
           full_name: formData.name,
+          username: formData.username,
           role_selection: formData.selection
         }
       }
@@ -270,7 +272,7 @@ function SignUpForm({ setCurrentPage }: { setCurrentPage: (page: string) => void
   // Step Indicators
   const StepLabel = () => (
     <div className="flex justify-center gap-1 mb-1">
-      {[0, 1, 2, 3].map((s) => (
+      {[0, 1, 2, 3, 4].map((s) => (
         <div 
           key={s} 
           className={cn(
@@ -329,6 +331,37 @@ function SignUpForm({ setCurrentPage }: { setCurrentPage: (page: string) => void
           >
             <div className="flex flex-col items-center gap-1 text-center">
               <h1 className="text-2xl font-bold tracking-tight text-white">Create Account</h1>
+              <p className="text-sm text-slate-400">Now, pick a unique username</p>
+            </div>
+            <div className="grid gap-4">
+              <Input 
+                autoFocus
+                id="username" 
+                placeholder="@username" 
+                value={formData.username}
+                onChange={(e) => updateField('username', e.target.value)}
+                className="bg-slate-800/50 border-slate-700 text-white h-14 text-center text-lg" 
+              />
+              <Button disabled={!formData.username} onClick={handleNext} variant="brand" size="xl" className="h-12 shadow-lg shadow-[#ffae1f]/10">
+                  Next Step
+              </Button>
+              <button onClick={handleBack} className="text-xs text-slate-500 hover:text-slate-300">Go Back</button>
+            </div>
+          </motion.div>
+        )}
+
+        {step === 2 && (
+          <motion.div
+            key="step2"
+            variants={variants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="flex flex-col gap-4 mt-0"
+          >
+            <div className="flex flex-col items-center gap-1 text-center">
+              <h1 className="text-2xl font-bold tracking-tight text-white">Create Account</h1>
               <p className="text-sm text-slate-400">Great! What is your email address?</p>
             </div>
             <div className="grid gap-4">
@@ -348,9 +381,9 @@ function SignUpForm({ setCurrentPage }: { setCurrentPage: (page: string) => void
           </motion.div>
         )}
 
-        {step === 2 && (
+        {step === 3 && (
           <motion.div
-            key="step2"
+            key="step3"
             variants={variants}
             initial="initial"
             animate="animate"
@@ -400,9 +433,9 @@ function SignUpForm({ setCurrentPage }: { setCurrentPage: (page: string) => void
           </motion.div>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <motion.div
-            key="step3"
+            key="step4"
             variants={variants}
             initial="initial"
             animate="animate"

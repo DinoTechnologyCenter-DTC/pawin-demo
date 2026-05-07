@@ -60,39 +60,36 @@ const AdminDashboard: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      if (activeTab === 'applications') {
-        const { data, error } = await supabase
-          .from('applications')
-          .select('*')
-          .order('created_at', { ascending: false });
-        if (error) throw error;
-        setApplications(data || []);
-      } else if (activeTab === 'messages') {
-        const { data, error } = await supabase
-          .from('contact_messages')
-          .select('*')
-          .order('created_at', { ascending: false });
-        if (error) throw error;
-        setMessages(data || []);
-      } else if (activeTab === 'users') {
-        // Note: This requires a 'profiles' table in Supabase
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .order('created_at', { ascending: false });
-        if (error) throw error;
-        setUsers(data || []);
-      } else if (activeTab === 'logs') {
-        // Note: This requires an 'audit_logs' table in Supabase
-        const { data, error } = await supabase
+      // Fetch everything simultaneously to populate stats cards
+      const [appsRes, msgsRes, usersRes] = await Promise.all([
+        supabase.from('applications').select('*').order('created_at', { ascending: false }),
+        supabase.from('contact_messages').select('*').order('created_at', { ascending: false }),
+        supabase.from('profiles').select('*').order('created_at', { ascending: false })
+      ]);
+
+      if (appsRes.error && appsRes.error.code !== 'PGRST116') {
+        console.error("Apps fetch error:", appsRes.error);
+      }
+      if (msgsRes.error && msgsRes.error.code !== 'PGRST116') {
+        console.error("Messages fetch error:", msgsRes.error);
+      }
+      if (usersRes.error && usersRes.error.code !== 'PGRST116') {
+        console.error("Users fetch error:", usersRes.error);
+      }
+
+      setApplications(appsRes.data || []);
+      setMessages(msgsRes.data || []);
+      setUsers(usersRes.data || []);
+
+      if (activeTab === 'logs') {
+        const { data: logsData, error: logsError } = await supabase
           .from('audit_logs')
           .select('*')
           .order('created_at', { ascending: false });
-        if (error) throw error;
-        setLogs(data || []);
+        if (!logsError) setLogs(logsData || []);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch data');
+      setError(err instanceof Error ? err.message : 'Failed to connect to database');
     } finally {
       setLoading(false);
     }
@@ -261,10 +258,42 @@ const AdminDashboard: React.FC = () => {
 
         {/* Page Content */}
         <div className="p-8">
+          {/* Stats Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <StatCard 
+              title="Total Applications" 
+              value={applications.length} 
+              icon={<LayoutDashboard className="size-6" />}
+              color="text-[#ffae1f]"
+              bgColor="bg-[#ffae1f]/10"
+            />
+            <StatCard 
+              title="Registered Users" 
+              value={users.length} 
+              icon={<Users className="size-6" />}
+              color="text-blue-400"
+              bgColor="bg-blue-500/10"
+            />
+            <StatCard 
+              title="Support Inquiries" 
+              value={messages.length} 
+              icon={<Mail className="size-6" />}
+              color="text-[#fe4f51]"
+              bgColor="bg-[#fe4f51]/10"
+            />
+            <StatCard 
+              title="System Health" 
+              value="Stable" 
+              icon={<Activity className="size-6" />}
+              color="text-emerald-400"
+              bgColor="bg-emerald-500/10"
+            />
+          </div>
+
           <div className="flex items-center justify-between mb-8">
             <Animated>
               <h2 className="text-2xl font-bold text-white capitalize">
-                {activeTab === 'applications' ? 'Applications Dashboard' : 
+                {activeTab === 'applications' ? 'Applications List' : 
                  activeTab === 'users' ? 'User Management' : 
                  activeTab === 'messages' ? 'Support Inquiries' : 'Audit Logs'}
               </h2>
@@ -324,6 +353,7 @@ const AdminDashboard: React.FC = () => {
                       <thead>
                         <tr className="bg-slate-900/50 border-b border-slate-800">
                           <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-slate-500">User</th>
+                          <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-slate-500">Username</th>
                           <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-slate-500">Role</th>
                           <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-slate-500">Joined</th>
                           <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-slate-500">Actions</th>
@@ -342,6 +372,9 @@ const AdminDashboard: React.FC = () => {
                                   <p className="text-xs text-slate-500">{user.email}</p>
                                 </div>
                               </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <p className="text-xs font-bold text-slate-400">@{user.username || 'member'}</p>
                             </td>
                             <td className="px-6 py-4">
                               <span className="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-500/10">
@@ -408,6 +441,20 @@ const AdminDashboard: React.FC = () => {
     </div>
   );
 };
+
+const StatCard = ({ title, value, icon, color, bgColor }: { title: string, value: string | number, icon: React.ReactNode, color: string, bgColor: string }) => (
+  <Animated className={`bg-[#0d1117] border border-slate-800 p-6 rounded-[2rem] shadow-xl hover:border-slate-700 transition-all`}>
+    <div className="flex items-center gap-4">
+      <div className={`p-3 rounded-2xl ${bgColor} ${color}`}>
+        {icon}
+      </div>
+      <div>
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-1">{title}</p>
+        <p className="text-2xl font-bold text-white">{value}</p>
+      </div>
+    </div>
+  </Animated>
+);
 
 const EmptyState = ({ icon, text = "Nothing here yet" }: { icon: React.ReactNode, text?: string }) => (
   <div className="text-center py-32 text-slate-700 border-2 border-dashed border-slate-800/50 rounded-3xl">
