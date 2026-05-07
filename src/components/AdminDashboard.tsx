@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { logEvent } from '../lib/audit';
 
 const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'applications' | 'messages' | 'users' | 'logs'>('applications');
@@ -94,12 +95,13 @@ const AdminDashboard: React.FC = () => {
       setLoading(false);
     }
   };
-
   const deleteItem = async (id: string | number, table: string) => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
     try {
       const { error } = await supabase.from(table).delete().eq('id', id);
       if (error) throw error;
+      
+      await logEvent(user?.email || 'unknown', `Deleted record ${id} from ${table}`, 'info');
       fetchData();
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Delete failed');
@@ -107,6 +109,7 @@ const AdminDashboard: React.FC = () => {
   };
 
   const handleSignOut = async () => {
+    await logEvent(user?.email || 'unknown', 'Admin Logged Out', 'info');
     await supabase.auth.signOut();
     navigate('/');
   };

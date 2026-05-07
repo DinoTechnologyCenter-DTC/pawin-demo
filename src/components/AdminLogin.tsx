@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { ShieldCheck, ArrowLeft, Mail, Lock, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Animated from './Animated';
+import { logEvent } from '../lib/audit';
 
 const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -38,6 +38,7 @@ const AdminLogin: React.FC = () => {
     const { data, error: loginError } = await supabase.auth.signInWithPassword({ email, password });
 
     if (loginError) {
+      await logEvent(email, 'Failed Login Attempt', 'failure');
       setError(loginError.message);
       setLoading(false);
       return;
@@ -51,8 +52,10 @@ const AdminLogin: React.FC = () => {
       .single();
 
     if (profile && profile.role === 'admin') {
+      await logEvent(email, 'Successful Admin Login', 'success');
       navigate('/admin');
     } else {
+      await logEvent(email, 'Access Denied: Non-Admin Attempt', 'failure');
       await supabase.auth.signOut();
       setError("Access Denied: You do not have administrator privileges.");
       setLoading(false);
