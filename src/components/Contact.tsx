@@ -1,8 +1,53 @@
-import React from 'react';
-import { LocationIcon, PhoneIcon, EmailIcon, InstagramIcon, TikTokIcon, LinkedInIcon } from './icons';
+import React, { useState } from 'react';
+import { LocationIcon, PhoneIcon, EmailIcon, InstagramIcon, TikTokIcon, LinkedInIcon, CheckIcon } from './icons';
 import Animated from './Animated';
+import { supabase } from '../lib/supabase';
 
 const Contact: React.FC = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const { error: sbError } = await supabase
+        .from('contact_messages')
+        .insert([
+          {
+            full_name: formData.fullName,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            status: 'new'
+          }
+        ]);
+
+      if (sbError) throw new Error(sbError.message);
+      
+      setIsSubmitted(true);
+      setFormData({ fullName: '', email: '', subject: '', message: '' });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="py-20 bg-gradient-to-b from-slate-900 to-slate-800 text-slate-200">
       <div className="container mx-auto px-6">
@@ -18,29 +63,101 @@ const Contact: React.FC = () => {
           <Animated>
             <div className="bg-slate-800/50 p-8 rounded-xl border border-slate-700/50 backdrop-blur-sm">
               <h3 className="text-2xl font-bold text-white mb-6">Send us a Message</h3>
-              <form action="#" method="POST" className="space-y-6">
-                <div>
-                  <label htmlFor="full-name" className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
-                  <input type="text" name="full-name" id="full-name" autoComplete="name" className="w-full bg-slate-700/30 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffae1f]/50 focus:border-transparent transition-all duration-200" />
+              
+              {isSubmitted ? (
+                <div className="bg-green-500/10 border border-green-500/50 rounded-xl p-8 text-center animate-in fade-in zoom-in duration-500">
+                   <div className="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckIcon className="w-8 h-8" />
+                   </div>
+                   <h4 className="text-xl font-bold text-white mb-2">Message Sent!</h4>
+                   <p className="text-slate-400 mb-6">Thank you for reaching out. We'll get back to you as soon as possible.</p>
+                   <button 
+                    onClick={() => setIsSubmitted(false)}
+                    className="text-[#ffae1f] hover:text-[#fe4f51] font-semibold transition-colors"
+                   >
+                    Send another message
+                   </button>
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
-                  <input type="email" name="email" id="email" autoComplete="email" className="w-full bg-slate-700/30 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffae1f]/50 focus:border-transparent transition-all duration-200" />
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-slate-300 mb-2">Subject</label>
-                  <input type="text" name="subject" id="subject" className="w-full bg-slate-700/30 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffae1f]/50 focus:border-transparent transition-all duration-200" />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">Message</label>
-                  <textarea name="message" id="message" rows={4} className="w-full bg-slate-700/30 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffae1f]/50 focus:border-transparent transition-all duration-200"></textarea>
-                </div>
-                <div>
-                  <button type="submit" className="w-full bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffae1f]/50 focus:ring-offset-slate-800">
-                    Send Message
-                  </button>
-                </div>
-              </form>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {error && (
+                    <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4 mb-4">
+                      <p className="text-red-400 text-sm">{error}</p>
+                    </div>
+                  )}
+                  <div>
+                    <label htmlFor="fullName" className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
+                    <input 
+                      type="text" 
+                      name="fullName" 
+                      id="fullName" 
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      required
+                      autoComplete="name" 
+                      disabled={isSubmitting}
+                      className="w-full bg-slate-700/30 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffae1f]/50 focus:border-transparent transition-all duration-200 disabled:opacity-50" 
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
+                    <input 
+                      type="email" 
+                      name="email" 
+                      id="email" 
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      autoComplete="email" 
+                      disabled={isSubmitting}
+                      className="w-full bg-slate-700/30 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffae1f]/50 focus:border-transparent transition-all duration-200 disabled:opacity-50" 
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="subject" className="block text-sm font-medium text-slate-300 mb-2">Subject</label>
+                    <input 
+                      type="text" 
+                      name="subject" 
+                      id="subject" 
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      disabled={isSubmitting}
+                      className="w-full bg-slate-700/30 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffae1f]/50 focus:border-transparent transition-all duration-200 disabled:opacity-50" 
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">Message</label>
+                    <textarea 
+                      name="message" 
+                      id="message" 
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      rows={4} 
+                      disabled={isSubmitting}
+                      className="w-full bg-slate-700/30 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ffae1f]/50 focus:border-transparent transition-all duration-200 disabled:opacity-50"
+                    ></textarea>
+                  </div>
+                  <div>
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="w-full bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffae1f]/50 focus:ring-offset-slate-800 disabled:opacity-50 flex items-center justify-center"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Sending...
+                        </>
+                      ) : "Send Message"}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </Animated>
 

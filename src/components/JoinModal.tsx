@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CheckIcon } from './icons';
-import { api } from '../services/api';
+import { supabase } from '../lib/supabase';
 
 interface JoinModalProps {
   isOpen: boolean;
@@ -68,15 +68,20 @@ const JoinModal: React.FC<JoinModalProps> = ({ isOpen, onClose, defaultInterest 
     setError(null);
     
     try {
-      const result = await api.submitApplication({
-        name: formData.name,
-        email: formData.email,
-        interest: formData.interest,
-        message: formData.message
-      });
+      const { error: sbError } = await supabase
+        .from('applications')
+        .insert([
+          { 
+            full_name: formData.name, 
+            email: formData.email, 
+            interest_type: formData.interest, 
+            message: formData.message,
+            status: 'pending'
+          }
+        ]);
       
-      if (result.error) {
-        throw new Error(result.error);
+      if (sbError) {
+        throw new Error(sbError.message);
       }
       
       setIsSubmitted(true);
