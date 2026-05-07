@@ -61,7 +61,10 @@ interface Navbar1Props {
   currentPage: string;
   setCurrentPage: (page: string) => void;
   openJoinModal: (interest?: string) => void;
+  user?: any;
 }
+
+import { supabase } from "../../lib/supabase";
 
 const Navbar1 = ({
   logo = {
@@ -79,6 +82,7 @@ const Navbar1 = ({
   currentPage,
   setCurrentPage,
   openJoinModal,
+  user,
 }: Navbar1Props) => {
   const [isVisible, setIsVisible] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
@@ -100,6 +104,11 @@ const Navbar1 = ({
       window.removeEventListener('scroll', controlNavbar);
     };
   }, [lastScrollY]);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setCurrentPage('home');
+  };
 
   return (
     <section 
@@ -161,14 +170,24 @@ const Navbar1 = ({
           </div>
           <div className="flex justify-end h-full items-center gap-4">
             {/* Logic for Logged In User Avatar */}
-            {currentPage === 'home-logged-in' || currentPage === 'dashboard' ? (
-              <button 
-                onClick={() => setCurrentPage('dashboard')}
-                className="h-10 w-10 bg-slate-800 border border-slate-700 rounded-xl flex items-center justify-center text-white font-bold hover:bg-[#ffae1f] hover:border-[#ffae1f] transition-all group shadow-lg shadow-black/20"
-                title="Profile"
-              >
-                <span className="group-hover:scale-110 transition-transform">D</span>
-              </button>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => setCurrentPage('dashboard')}
+                  className="h-10 w-10 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-white font-bold hover:bg-[#ffae1f] hover:border-[#ffae1f] transition-all group shadow-lg shadow-black/20"
+                  title={user.user_metadata?.full_name || "Profile"}
+                >
+                  <span className="group-hover:scale-110 transition-transform">
+                    {user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+                  </span>
+                </button>
+                <button 
+                  onClick={handleSignOut}
+                  className="text-xs font-bold text-slate-500 hover:text-[#fe4f51] transition-colors uppercase tracking-widest"
+                >
+                  Sign Out
+                </button>
+              </div>
             ) : (
               <Button
                 size="lg"
@@ -272,18 +291,32 @@ const Navbar1 = ({
                         transition={{ delay: 0.5 }}
                         className="flex flex-col gap-3"
                       >
-                        {currentPage === 'home-logged-in' || currentPage === 'dashboard' ? (
-                          <SheetClose asChild>
-                            <button 
-                              onClick={() => setCurrentPage('dashboard')}
-                              className="h-14 w-full bg-slate-800/50 border border-slate-700 rounded-2xl flex items-center gap-4 px-4 text-white font-bold hover:bg-slate-800 transition-all group shadow-xl"
+                        {user ? (
+                          <div className="flex flex-col gap-3">
+                            <SheetClose asChild>
+                              <button 
+                                onClick={() => setCurrentPage('dashboard')}
+                                className="h-14 w-full bg-slate-800/50 border border-slate-700 rounded-2xl flex items-center gap-4 px-4 text-white font-bold hover:bg-slate-800 transition-all group shadow-xl"
+                              >
+                                <div className="h-10 w-10 bg-slate-700 border border-slate-600 rounded-full flex items-center justify-center group-hover:bg-[#ffae1f] group-hover:border-[#ffae1f] transition-all">
+                                  <span className="text-sm">
+                                    {user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+                                  </span>
+                                </div>
+                                <span className="text-base font-semibold truncate">
+                                  {user.user_metadata?.full_name || "User Dashboard"}
+                                </span>
+                              </button>
+                            </SheetClose>
+                            <Button 
+                              variant="outline" 
+                              size="lg" 
+                              className="h-12 w-full font-bold rounded-2xl border-slate-800 text-slate-500" 
+                              onClick={handleSignOut}
                             >
-                              <div className="h-10 w-10 bg-slate-700 border border-slate-600 rounded-xl flex items-center justify-center group-hover:bg-[#ffae1f] group-hover:border-[#ffae1f] transition-all">
-                                <span className="text-sm">D</span>
-                              </div>
-                              <span className="text-base font-semibold">User Dashboard</span>
-                            </button>
-                          </SheetClose>
+                              Sign Out
+                            </Button>
+                          </div>
                         ) : (
                           <SheetClose asChild>
                             <Button 

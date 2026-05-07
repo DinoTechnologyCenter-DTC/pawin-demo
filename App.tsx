@@ -25,11 +25,30 @@ import ProjectDetail from './src/components/ProjectDetail';
 import PrivacyPolicy from './src/components/PrivacyPolicy';
 import TermsOfService from './src/components/TermsOfService';
 
+import { supabase } from './src/lib/supabase';
+
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [joinModalConfig, setJoinModalConfig] = useState<{interest: string; jobTitle?: string}>({ interest: 'general' });
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   // Map state to URL paths
   const setCurrentPage = (page: string) => {
@@ -72,6 +91,7 @@ const App: React.FC = () => {
             currentPage={currentPage} 
             setCurrentPage={setCurrentPage} 
             openJoinModal={openJoinModal} 
+            user={user}
           />
         )}
 
