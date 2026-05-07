@@ -25,6 +25,7 @@ import ProjectDetail from './src/components/ProjectDetail';
 import PrivacyPolicy from './src/components/PrivacyPolicy';
 import TermsOfService from './src/components/TermsOfService';
 import AdminDashboard from './src/components/AdminDashboard';
+import AdminLogin from './src/components/AdminLogin';
 
 import { supabase } from './src/lib/supabase';
 
@@ -59,7 +60,7 @@ const App: React.FC = () => {
 
   const currentPage = location.pathname === '/' ? 'home' : location.pathname.substring(1);
   const isAuthPage = location.pathname === '/signin' || location.pathname === '/signup';
-  const isAdminPage = location.pathname === '/admin';
+  const isAdminPage = location.pathname === '/admin' || location.pathname === '/admin-login';
   const hideLayout = isAuthPage || isAdminPage;
 
   const openJoinModal = (interest = 'general', options: { jobTitle?: string } = {}) => {
@@ -114,6 +115,7 @@ const App: React.FC = () => {
             <Route path="/signin" element={<SignIn setCurrentPage={setCurrentPage} />} />
             <Route path="/signup" element={<SignUp setCurrentPage={setCurrentPage} />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/projects/:name" element={<ProjectDetail />} />
             <Route path="/innovators" element={<Innovators openJoinModal={openJoinModal} />} />
             <Route path="/investors" element={<Investors openJoinModal={openJoinModal} />} />

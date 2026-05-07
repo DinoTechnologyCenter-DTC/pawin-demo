@@ -8,6 +8,7 @@ import {
   FileText, Activity, ShieldCheck, List
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'applications' | 'messages' | 'users' | 'logs'>('applications');
@@ -18,63 +19,35 @@ const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        // Fetch the profile to check for admin role
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
-
-        if (profile && profile.role === 'admin') {
-          setAuthChecked(true);
-        } else {
-          // Not an admin? Kick them out
-          await supabase.auth.signOut();
-          setLoginError("Unauthorized. This portal is for Administrators only.");
-        }
+      if (!session) {
+        navigate('/admin-login');
+        return;
       }
-    };
-    checkAuth();
-  }, []);
-
-  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const [loginLoading, setLoginLoading] = useState(false);
-  const [loginError, setLoginError] = useState<string | null>(null);
-
-  const handleAdminLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginLoading(true);
-    setLoginError(null);
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: loginForm.email,
-      password: loginForm.password
-    });
-    if (error) {
-      setLoginError(error.message);
-      setLoginLoading(false);
-    } else {
-      // Check for admin role immediately after login
+      // Fetch the profile to check for admin role
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')
-        .eq('id', data.user.id)
+        .eq('id', session.user.id)
         .single();
 
       if (profile && profile.role === 'admin') {
+        setUser(session.user);
         setAuthChecked(true);
       } else {
         await supabase.auth.signOut();
-        setLoginError("Unauthorized. Your account does not have Admin privileges.");
-        setLoginLoading(false);
+        navigate('/admin-login');
       }
-    }
-  };
+    };
+    checkAuth();
+  }, [navigate]);
+
 
 
   useEffect(() => {
@@ -143,60 +116,8 @@ const AdminDashboard: React.FC = () => {
 
   if (!authChecked) {
     return (
-      <div className="min-h-screen bg-[#0a0c10] flex items-center justify-center p-6">
-        <Animated className="w-full max-w-md bg-[#0d1117] border border-slate-800 p-8 rounded-3xl shadow-2xl">
-          <div className="flex justify-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-[#ffae1f] to-[#fe4f51] rounded-2xl flex items-center justify-center shadow-lg shadow-[#ffae1f]/20">
-              <ShieldCheck className="size-10 text-white" />
-            </div>
-          </div>
-          <h2 className="text-2xl font-bold text-white text-center mb-2">Admin Portal</h2>
-          <p className="text-slate-500 text-center text-sm mb-8">Secure access to PAWIN Database</p>
-          
-          <form onSubmit={handleAdminLogin} className="space-y-4">
-            {loginError && (
-              <div className="bg-red-500/10 border border-red-500/50 p-3 rounded-xl text-red-400 text-xs text-center">
-                {loginError}
-              </div>
-            )}
-            <div>
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-1">Admin Email</label>
-              <input 
-                type="email" 
-                required
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-[#ffae1f]/50 transition-all mt-1"
-                placeholder="admin@pawin.com"
-                value={loginForm.email}
-                onChange={(e) => setLoginForm({...loginForm, email: e.target.value})}
-              />
-            </div>
-            <div>
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-1">Password</label>
-              <input 
-                type="password" 
-                required
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-[#ffae1f]/50 transition-all mt-1"
-                placeholder="••••••••"
-                value={loginForm.password}
-                onChange={(e) => setLoginForm({...loginForm, password: e.target.value})}
-              />
-            </div>
-            <button 
-              type="submit"
-              disabled={loginLoading}
-              className="w-full bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-bold py-4 rounded-xl hover:opacity-90 transition-all mt-4 shadow-xl shadow-[#ffae1f]/10"
-            >
-              {loginLoading ? "Authenticating..." : "Authorize Access"}
-            </button>
-          </form>
-          
-          <button 
-            onClick={() => navigate('/')}
-            className="w-full text-slate-600 text-xs font-bold uppercase tracking-widest mt-8 hover:text-slate-400 transition-colors"
-          >
-            Cancel & Return to Site
-          </button>
-        </Animated>
+      <div className="min-h-screen bg-[#0a0c10] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#ffae1f]"></div>
       </div>
     );
   }
@@ -288,10 +209,52 @@ const AdminDashboard: React.FC = () => {
               <span className="absolute top-2 right-2 w-2 h-2 bg-[#fe4f51] rounded-full border-2 border-[#0d1117]"></span>
             </button>
             <div className="h-8 w-px bg-slate-800"></div>
-            <div className="flex items-center gap-3 pl-2">
-              <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-[#ffae1f] text-xs">
-                AD
-              </div>
+            <div className="flex items-center gap-3 pl-2 relative">
+              <button 
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-[#ffae1f] text-sm hover:border-[#ffae1f]/50 transition-all shadow-lg"
+              >
+                {user?.user_metadata?.full_name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || 'A'}
+              </button>
+
+              <AnimatePresence>
+                {isProfileOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsProfileOpen(false)} />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute right-0 top-full mt-2 w-64 bg-[#0d1117] border border-slate-800 rounded-2xl shadow-2xl z-50 p-2"
+                    >
+                      <div className="p-4 border-b border-slate-800/50 mb-2 bg-slate-900/50 rounded-t-xl">
+                        <p className="text-sm font-bold text-white truncate">
+                          {user?.user_metadata?.full_name || "Administrator"}
+                        </p>
+                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest truncate mt-1">
+                          {user?.email}
+                        </p>
+                      </div>
+                      
+                      <button 
+                        onClick={() => { navigate('/'); setIsProfileOpen(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all group"
+                      >
+                        <Home className="size-4 text-slate-600 group-hover:text-[#ffae1f]" />
+                        Back to Website
+                      </button>
+
+                      <button 
+                        onClick={handleSignOut}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-red-400 hover:bg-red-500/10 rounded-xl transition-all group"
+                      >
+                        <LogOut className="size-4 opacity-70" />
+                        Log Out
+                      </button>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </header>

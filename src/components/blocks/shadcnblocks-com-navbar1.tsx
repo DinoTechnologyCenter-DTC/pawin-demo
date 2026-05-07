@@ -1,6 +1,7 @@
 import React from "react";
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { Book, Menu, Sunset, Trees, Zap, ChevronDown, LogOut, LayoutDashboard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "../../lib/supabase";
 
 import {
   Accordion,
@@ -86,6 +87,7 @@ const Navbar1 = ({
 }: Navbar1Props) => {
   const [isVisible, setIsVisible] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
+  const [isProfileOpen, setIsProfileOpen] = React.useState(false);
 
   React.useEffect(() => {
     const controlNavbar = () => {
@@ -171,22 +173,72 @@ const Navbar1 = ({
           <div className="flex justify-end h-full items-center gap-4">
             {/* Logic for Logged In User Avatar */}
             {user ? (
-              <div className="flex items-center gap-3">
+              <div className="relative">
                 <button 
-                  onClick={() => setCurrentPage('dashboard')}
-                  className="h-10 w-10 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-white font-bold hover:bg-[#ffae1f] hover:border-[#ffae1f] transition-all group shadow-lg shadow-black/20"
-                  title={user.user_metadata?.full_name || "Profile"}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsProfileOpen(!isProfileOpen);
+                  }}
+                  className="flex items-center gap-2 p-1 pr-3 rounded-full bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-[#ffae1f]/50 transition-all group"
                 >
-                  <span className="group-hover:scale-110 transition-transform">
+                  <div className="h-8 w-8 bg-gradient-to-br from-[#ffae1f] to-[#fe4f51] rounded-full flex items-center justify-center text-white font-bold text-xs shadow-lg">
                     {user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
-                  </span>
+                  </div>
+                  <ChevronDown className={`size-3.5 text-slate-500 group-hover:text-white transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`} />
                 </button>
-                <button 
-                  onClick={handleSignOut}
-                  className="text-xs font-bold text-slate-500 hover:text-[#fe4f51] transition-colors uppercase tracking-widest"
-                >
-                  Sign Out
-                </button>
+
+                <AnimatePresence>
+                  {isProfileOpen && (
+                    <>
+                      {/* Invisible backdrop to catch clicks outside */}
+                      <div 
+                        className="fixed inset-0 z-[60]" 
+                        onClick={() => setIsProfileOpen(false)}
+                      />
+                      <motion.div
+                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        className="absolute right-0 mt-3 w-72 bg-[#0d1117] border border-slate-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[70] overflow-hidden"
+                      >
+                        {/* Header Section */}
+                        <div className="p-5 bg-slate-900/50 border-b border-slate-800/50">
+                          <div className="flex items-center gap-4">
+                            <div className="h-12 w-12 bg-slate-800 rounded-xl flex items-center justify-center text-[#ffae1f] font-bold text-xl border border-slate-700">
+                              {user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+                            </div>
+                            <div className="flex-1 truncate">
+                              <h3 className="text-sm font-bold text-white truncate">
+                                {user.user_metadata?.full_name || "Member"}
+                              </h3>
+                              <p className="text-[11px] text-slate-500 font-medium truncate mt-0.5">
+                                {user.email}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Actions Section */}
+                        <div className="p-2">
+                          <button 
+                            onClick={handleSignOut}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-400 hover:bg-red-500/10 rounded-xl transition-all group"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-red-500/5 flex items-center justify-center group-hover:bg-red-500/20 transition-all">
+                              <LogOut className="size-4" />
+                            </div>
+                            Sign Out Account
+                          </button>
+                        </div>
+                        
+                        {/* Footer Info */}
+                        <div className="px-6 py-4 bg-slate-900/30 border-t border-slate-800/50">
+                           <p className="text-[9px] text-slate-600 font-bold uppercase tracking-[0.2em] text-center">Pawin Platform &copy; 2026</p>
+                        </div>
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
               </div>
             ) : (
               <Button
@@ -293,29 +345,29 @@ const Navbar1 = ({
                       >
                         {user ? (
                           <div className="flex flex-col gap-3">
-                            <SheetClose asChild>
-                              <button 
-                                onClick={() => setCurrentPage('dashboard')}
-                                className="h-14 w-full bg-slate-800/50 border border-slate-700 rounded-2xl flex items-center gap-4 px-4 text-white font-bold hover:bg-slate-800 transition-all group shadow-xl"
-                              >
-                                <div className="h-10 w-10 bg-slate-700 border border-slate-600 rounded-full flex items-center justify-center group-hover:bg-[#ffae1f] group-hover:border-[#ffae1f] transition-all">
-                                  <span className="text-sm">
-                                    {user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
-                                  </span>
+                            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+                              <div className="flex items-center gap-4 mb-4 pb-4 border-b border-slate-800/50">
+                                <div className="h-12 w-12 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                  {user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
                                 </div>
-                                <span className="text-base font-semibold truncate">
-                                  {user.user_metadata?.full_name || "User Dashboard"}
-                                </span>
-                              </button>
-                            </SheetClose>
-                            <Button 
-                              variant="outline" 
-                              size="lg" 
-                              className="h-12 w-full font-bold rounded-2xl border-slate-800 text-slate-500" 
-                              onClick={handleSignOut}
-                            >
-                              Sign Out
-                            </Button>
+                                <div className="flex-1 truncate">
+                                  <p className="text-sm font-bold text-white truncate">
+                                    {user.user_metadata?.full_name || "User"}
+                                  </p>
+                                  <p className="text-[10px] text-slate-500 font-medium truncate">
+                                    {user.email}
+                                  </p>
+                                </div>
+                              </div>
+                              <Button 
+                                variant="outline" 
+                                size="lg" 
+                                className="h-12 w-full font-bold rounded-xl border-slate-800 text-red-400 hover:bg-red-500/10 hover:border-red-500/20" 
+                                onClick={handleSignOut}
+                              >
+                                Sign Out
+                              </Button>
+                            </div>
                           </div>
                         ) : (
                           <SheetClose asChild>
