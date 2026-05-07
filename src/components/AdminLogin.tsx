@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { ShieldCheck, ArrowLeft, Mail, Lock } from 'lucide-react';
+import { ShieldCheck, ArrowLeft, Mail, Lock, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Animated from './Animated';
 
