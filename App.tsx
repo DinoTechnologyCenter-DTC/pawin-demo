@@ -7,6 +7,7 @@ import Nexus from './src/components/Nexus';
 import { StickyScrollRevealDemo as PathToSuccess } from './src/components/blocks/StickyScrollRevealDemo';
 import FeaturedInnovations from './src/components/FeaturedInnovations';
 import Testimonials from './src/components/Testimonials';
+import PromoVideo from './src/components/PromoVideo';
 import CTA from './src/components/CTA';
 import { StickyFooter } from './src/components/ui/sticky-footer';
 import Contact from './src/components/Contact';
@@ -118,6 +119,7 @@ const App: React.FC = () => {
                 <Stats />
                 <PathToSuccess />
                 <FeaturedInnovations />
+                <PromoVideo />
                 <Testimonials />
                 <CTA openJoinModal={openJoinModal} />
               </>
