@@ -28,8 +28,10 @@ const InnovationCard: React.FC<InnovationCardProps> = ({ image, category, title,
   );
 };
 
+import { supabase } from '../lib/supabase';
+
 const FeaturedInnovations: React.FC = () => {
-  const innovations = [
+  const [innovations, setInnovations] = React.useState([
     {
       image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Innovation",
@@ -78,8 +80,20 @@ const FeaturedInnovations: React.FC = () => {
       categoryColor: "bg-red-500/30 text-red-300",
       slug: "partnerships-grants-investment"
     }
+  ]);
 
-  ];
+  React.useEffect(() => {
+    const fetchImages = async () => {
+      const { data } = await supabase.from('site_content').select('*');
+      if (data) {
+        setInnovations(prev => prev.map((item, idx) => {
+          const match = data.find(d => d.id === `innovation_${idx + 1}_image`);
+          return match ? { ...item, image: match.content_value } : item;
+        }));
+      }
+    };
+    fetchImages();
+  }, []);
 
   const navigate = useNavigate();
 

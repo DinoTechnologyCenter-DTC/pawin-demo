@@ -5,18 +5,19 @@ import {
   Mail, Users, CheckCircle, Clock, Trash2, 
   ChevronRight, LayoutDashboard, Settings, 
   LogOut, Bell, Search, Filter, Home,
-  FileText, Activity, ShieldCheck, List
+  FileText, Activity, ShieldCheck, List, Image, Video
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { logEvent } from '../lib/audit';
 
 const AdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'applications' | 'messages' | 'users' | 'logs'>('applications');
+  const [activeTab, setActiveTab] = useState<'applications' | 'messages' | 'users' | 'logs' | 'settings' | 'media'>('applications');
   const [applications, setApplications] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [logs, setLogs] = useState<any[]>([]);
+  const [siteContent, setSiteContent] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
@@ -48,8 +49,6 @@ const AdminDashboard: React.FC = () => {
     };
     checkAuth();
   }, [navigate]);
-
-
 
   useEffect(() => {
     if (authChecked) {
@@ -89,12 +88,34 @@ const AdminDashboard: React.FC = () => {
           .order('created_at', { ascending: false });
         if (!logsError) setLogs(logsData || []);
       }
+
+      if (activeTab === 'media') {
+        const { data: mediaData } = await supabase.from('site_content').select('*');
+        if (mediaData) setSiteContent(mediaData);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to connect to database');
     } finally {
       setLoading(false);
     }
   };
+
+  const updateSiteContent = async (id: string, value: string) => {
+    try {
+      const { error } = await supabase
+        .from('site_content')
+        .upsert({ id, content_value: value, updated_at: new Date().toISOString() });
+      
+      if (error) throw error;
+      
+      await logEvent(user?.email || 'unknown', `Updated site content: ${id}`, 'info');
+      alert('Content updated successfully!');
+      fetchData();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Update failed');
+    }
+  };
+
   const deleteItem = async (id: string | number, table: string) => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
     try {
@@ -158,6 +179,14 @@ const AdminDashboard: React.FC = () => {
           >
             <Mail className={`size-5 ${activeTab === 'messages' ? 'text-[#fe4f51]' : 'text-slate-500 group-hover:text-slate-300'}`} />
             <span className="font-semibold text-sm">Inquiries</span>
+          </button>
+
+          <button 
+            onClick={() => setActiveTab('media')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${activeTab === 'media' ? 'bg-amber-500/10 text-amber-400' : 'hover:bg-slate-800/50 text-slate-400 hover:text-white'}`}
+          >
+            <Image className={`size-5 ${activeTab === 'media' ? 'text-amber-400' : 'text-slate-500 group-hover:text-slate-300'}`} />
+            <span className="font-semibold text-sm">Media Center</span>
           </button>
 
           <div className="pt-8">
@@ -454,6 +483,59 @@ const AdminDashboard: React.FC = () => {
                     ))}
                   </div>
                 ) : <EmptyState icon={<List className="size-16" />} text="System logs are clean" />
+              )}
+               )}
+
+               {/* Media Tab */}
+              {activeTab === 'media' && (
+                <div className="grid gap-6 max-w-5xl">
+                  <div className="bg-[#0d1117] border border-slate-800 rounded-2xl p-8">
+                    <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                      <Video className="size-5 text-[#ffae1f]" /> Homepage Video
+                    </h3>
+                    <div className="flex gap-4">
+                      <input 
+                        id="promo_video_url"
+                        type="text" 
+                        placeholder="Video URL (e.g. v1.mp4 or https://...)" 
+                        className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-[#ffae1f]/50" 
+                      />
+                      <button 
+                        onClick={() => updateSiteContent('promo_video_url', (document.getElementById('promo_video_url') as HTMLInputElement).value)}
+                        className="bg-[#ffae1f] text-slate-950 px-6 py-3 rounded-xl font-bold hover:bg-[#ffbe4d] transition-all"
+                      >
+                        Update Video
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#0d1117] border border-slate-800 rounded-2xl p-8">
+                    <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                      <Image className="size-5 text-blue-400" /> Featured Innovation Cards
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {[1, 2, 3, 4, 5, 6].map((num) => (
+                        <div key={num} className="space-y-3 bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Card #{num} Image URL</label>
+                          <div className="flex gap-3">
+                            <input 
+                              id={`innovation_${num}_image`}
+                              type="text" 
+                              placeholder="Image URL" 
+                              className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-blue-500/50" 
+                            />
+                            <button 
+                              onClick={() => updateSiteContent(`innovation_${num}_image`, (document.getElementById(`innovation_${num}_image`) as HTMLInputElement).value)}
+                              className="bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-blue-600 transition-all"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
 
               {/* Settings Tab */}

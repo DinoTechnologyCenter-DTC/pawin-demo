@@ -1,10 +1,24 @@
 import React from 'react';
 import Animated from './Animated';
 import { Play } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const PromoVideo: React.FC = () => {
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [videoUrl, setVideoUrl] = React.useState('v1.mp4');
+
+  React.useEffect(() => {
+    const fetchVideoUrl = async () => {
+      const { data } = await supabase
+        .from('site_content')
+        .select('content_value')
+        .eq('id', 'promo_video_url')
+        .single();
+      if (data) setVideoUrl(data.content_value);
+    };
+    fetchVideoUrl();
+  }, []);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -51,7 +65,7 @@ const PromoVideo: React.FC = () => {
                 playsInline
                 muted={false}
               >
-                <source src="v1.mp4" type="video/mp4" />
+                <source src={videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
               
