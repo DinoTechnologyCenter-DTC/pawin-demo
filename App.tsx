@@ -35,16 +35,25 @@ const App: React.FC = () => {
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [joinModalConfig, setJoinModalConfig] = useState<{interest: string; jobTitle?: string}>({ interest: 'general' });
   const [user, setUser] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
+    const fetchProfile = async (uid: string) => {
+      const { data } = await supabase.from('profiles').select('*').eq('id', uid).single();
+      setProfile(data);
+    };
+
     // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      if (session?.user) fetchProfile(session.user.id);
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) fetchProfile(session.user.id);
+      else setProfile(null);
     });
 
     return () => {
@@ -96,6 +105,7 @@ const App: React.FC = () => {
             setCurrentPage={setCurrentPage} 
             openJoinModal={openJoinModal} 
             user={user}
+            profile={profile}
           />
         )}
 

@@ -63,6 +63,7 @@ interface Navbar1Props {
   setCurrentPage: (page: string) => void;
   openJoinModal: (interest?: string) => void;
   user?: any;
+  profile?: any;
 }
 
 import { supabase } from "../../lib/supabase";
@@ -84,6 +85,7 @@ const Navbar1 = ({
   setCurrentPage,
   openJoinModal,
   user,
+  profile,
 }: Navbar1Props) => {
   const [isVisible, setIsVisible] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
@@ -205,11 +207,11 @@ const Navbar1 = ({
                         <div className="p-5 bg-slate-900/50 border-b border-slate-800/50">
                           <div className="flex items-center gap-4">
                             <div className="h-12 w-12 bg-slate-800 rounded-xl flex items-center justify-center text-[#ffae1f] font-bold text-xl border border-slate-700">
-                              {user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+                              {profile?.full_name?.charAt(0).toUpperCase() || user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
                             </div>
                             <div className="flex-1 truncate">
                               <h3 className="text-sm font-bold text-white truncate">
-                                {user.user_metadata?.full_name || "Member"}
+                                {profile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0]}
                               </h3>
                               <p className="text-[11px] text-slate-500 font-medium truncate mt-0.5">
                                 {user.email}
@@ -348,11 +350,11 @@ const Navbar1 = ({
                             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
                               <div className="flex items-center gap-4 mb-4 pb-4 border-b border-slate-800/50">
                                 <div className="h-12 w-12 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                                  {user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+                                  {profile?.full_name?.charAt(0).toUpperCase() || user.user_metadata?.full_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
                                 </div>
                                 <div className="flex-1 truncate">
                                   <p className="text-sm font-bold text-white truncate">
-                                    {user.user_metadata?.full_name || "User"}
+                                    {profile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0]}
                                   </p>
                                   <p className="text-[10px] text-slate-500 font-medium truncate">
                                     {user.email}

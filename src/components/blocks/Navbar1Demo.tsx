@@ -7,9 +7,10 @@ interface Navbar1DemoProps {
   openJoinModal: (interest?: string) => void;
   currentPage: string;
   user?: any;
+  profile?: any;
 }
 
-const Navbar1Demo: React.FC<Navbar1DemoProps> = ({ setCurrentPage, openJoinModal, currentPage, user }) => {
+const Navbar1Demo: React.FC<Navbar1DemoProps> = ({ setCurrentPage, openJoinModal, currentPage, user, profile }) => {
   const demoData = {
     logo: {
       url: "#",
@@ -90,6 +91,7 @@ const Navbar1Demo: React.FC<Navbar1DemoProps> = ({ setCurrentPage, openJoinModal
         setCurrentPage={setCurrentPage} 
         openJoinModal={openJoinModal} 
         user={user}
+        profile={profile}
     />
   );
 }
