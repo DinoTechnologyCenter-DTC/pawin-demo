@@ -166,8 +166,11 @@ const AdminDashboard: React.FC = () => {
               <List className={`size-5 ${activeTab === 'logs' ? 'text-emerald-400' : 'text-slate-500 group-hover:text-slate-300'}`} />
               <span className="font-semibold text-sm">Audit Logs</span>
             </button>
-            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800/50 text-slate-400 hover:text-white transition-all group">
-              <Settings className="size-5 text-slate-500 group-hover:text-slate-300" />
+            <button 
+              onClick={() => setActiveTab('settings')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${activeTab === 'settings' ? 'bg-slate-800/80 text-white border border-slate-700' : 'hover:bg-slate-800/50 text-slate-400 hover:text-white'}`}
+            >
+              <Settings className={`size-5 ${activeTab === 'settings' ? 'text-[#ffae1f]' : 'text-slate-500 group-hover:text-slate-300'}`} />
               <span className="font-semibold text-sm">Settings</span>
             </button>
           </div>
@@ -258,46 +261,61 @@ const AdminDashboard: React.FC = () => {
 
         {/* Page Content */}
         <div className="p-8">
-          {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <StatCard 
-              title="Total Applications" 
-              value={applications.length} 
-              icon={<LayoutDashboard className="size-6" />}
-              color="text-[#ffae1f]"
-              bgColor="bg-[#ffae1f]/10"
-            />
-            <StatCard 
-              title="Registered Users" 
-              value={users.length} 
-              icon={<Users className="size-6" />}
-              color="text-blue-400"
-              bgColor="bg-blue-500/10"
-            />
-            <StatCard 
-              title="Support Inquiries" 
-              value={messages.length} 
-              icon={<Mail className="size-6" />}
-              color="text-[#fe4f51]"
-              bgColor="bg-[#fe4f51]/10"
-            />
-            <StatCard 
-              title="System Health" 
-              value="Stable" 
-              icon={<Activity className="size-6" />}
-              color="text-emerald-400"
-              bgColor="bg-emerald-500/10"
-            />
-          </div>
+          {/* Stats Overview - Only visible on Dashboard */}
+          {activeTab === 'applications' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+              <StatCard 
+                title="Total Applications" 
+                value={applications.length} 
+                icon={<LayoutDashboard className="size-6" />}
+                color="text-[#ffae1f]"
+                bgColor="bg-[#ffae1f]/10"
+              />
+              <StatCard 
+                title="Registered Users" 
+                value={users.length} 
+                icon={<Users className="size-6" />}
+                color="text-blue-400"
+                bgColor="bg-blue-500/10"
+              />
+              <StatCard 
+                title="Support Inquiries" 
+                value={messages.length} 
+                icon={<Mail className="size-6" />}
+                color="text-[#fe4f51]"
+                bgColor="bg-[#fe4f51]/10"
+              />
+              <StatCard 
+                title="System Health" 
+                value="Stable" 
+                icon={<Activity className="size-6" />}
+                color="text-emerald-400"
+                bgColor="bg-emerald-500/10"
+              />
+            </div>
+          )}
 
           <div className="flex items-center justify-between mb-8">
             <Animated>
-              <h2 className="text-2xl font-bold text-white capitalize">
-                {activeTab === 'applications' ? 'Applications List' : 
-                 activeTab === 'users' ? 'User Management' : 
-                 activeTab === 'messages' ? 'Support Inquiries' : 'Audit Logs'}
-              </h2>
-              <p className="text-slate-500 text-sm">Database Control Panel</p>
+              <div className="flex items-center gap-3 mb-1">
+                {activeTab === 'applications' ? <LayoutDashboard className="size-5 text-[#ffae1f]" /> : 
+                 activeTab === 'users' ? <Users className="size-5 text-blue-400" /> : 
+                 activeTab === 'messages' ? <Mail className="size-5 text-[#fe4f51]" /> : 
+                 activeTab === 'logs' ? <List className="size-5 text-emerald-400" /> : 
+                 <Settings className="size-5 text-slate-400" />}
+                <h2 className="text-2xl font-bold text-white capitalize">
+                  {activeTab === 'applications' ? 'Command Center' : 
+                   activeTab === 'users' ? 'User Directory' : 
+                   activeTab === 'messages' ? 'Support Desk' : 
+                   activeTab === 'logs' ? 'Security Audit' : 'Platform Settings'}
+                </h2>
+              </div>
+              <p className="text-slate-500 text-sm">
+                {activeTab === 'applications' ? 'Overview of all innovator and investor applications' : 
+                 activeTab === 'users' ? 'Manage global PAWIN member accounts and roles' : 
+                 activeTab === 'messages' ? 'Review and respond to platform inquiries' : 
+                 activeTab === 'logs' ? 'Monitor system actions and security events' : 'Configure platform-wide administrative controls'}
+              </p>
             </Animated>
             
             <div className="flex items-center gap-3">
@@ -305,7 +323,7 @@ const AdminDashboard: React.FC = () => {
                 onClick={fetchData}
                 className="flex items-center gap-2 px-4 py-2 bg-slate-900 border border-slate-800 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition-all"
               >
-                Refresh
+                Refresh Data
               </button>
             </div>
           </div>
@@ -433,6 +451,53 @@ const AdminDashboard: React.FC = () => {
                     ))}
                   </div>
                 ) : <EmptyState icon={<List className="size-16" />} text="System logs are clean" />
+              )}
+
+              {/* Settings Tab */}
+              {activeTab === 'settings' && (
+                <div className="grid gap-6 max-w-4xl">
+                  <div className="bg-[#0d1117] border border-slate-800 rounded-2xl p-8">
+                    <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                      <Settings className="size-5 text-[#ffae1f]" /> General Configuration
+                    </h3>
+                    <div className="space-y-6">
+                      <div className="grid gap-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Platform Name</label>
+                        <input type="text" defaultValue="PAWIN Platform" className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-[#ffae1f]/50" />
+                      </div>
+                      <div className="grid gap-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Support Email</label>
+                        <input type="email" defaultValue="support@pawinplc.com" className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-[#ffae1f]/50" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#0d1117] border border-slate-800 rounded-2xl p-8">
+                    <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                      <ShieldCheck className="size-5 text-blue-400" /> Security & Authentication
+                    </h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                        <div>
+                          <p className="text-sm font-bold text-white">Two-Factor Authentication</p>
+                          <p className="text-xs text-slate-500">Require 2FA for all administrator accounts</p>
+                        </div>
+                        <div className="w-12 h-6 bg-slate-800 rounded-full relative">
+                          <div className="absolute left-1 top-1 w-4 h-4 bg-slate-600 rounded-full"></div>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                        <div>
+                          <p className="text-sm font-bold text-white">Public Registration</p>
+                          <p className="text-xs text-slate-500">Allow new users to sign up without invitation</p>
+                        </div>
+                        <div className="w-12 h-6 bg-[#ffae1f]/20 rounded-full relative border border-[#ffae1f]/30">
+                          <div className="absolute right-1 top-1 w-4 h-4 bg-[#ffae1f] rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           )}
