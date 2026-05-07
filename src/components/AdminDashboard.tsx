@@ -17,11 +17,71 @@ const AdminDashboard: React.FC = () => {
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData();
-  }, [activeTab]);
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        // Fetch the profile to check for admin role
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profile && profile.role === 'admin') {
+          setAuthChecked(true);
+        } else {
+          // Not an admin? Kick them out
+          await supabase.auth.signOut();
+          setLoginError("Unauthorized. This portal is for Administrators only.");
+        }
+      }
+    };
+    checkAuth();
+  }, []);
+
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  const handleAdminLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginLoading(true);
+    setLoginError(null);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: loginForm.email,
+      password: loginForm.password
+    });
+    if (error) {
+      setLoginError(error.message);
+      setLoginLoading(false);
+    } else {
+      // Check for admin role immediately after login
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .single();
+
+      if (profile && profile.role === 'admin') {
+        setAuthChecked(true);
+      } else {
+        await supabase.auth.signOut();
+        setLoginError("Unauthorized. Your account does not have Admin privileges.");
+        setLoginLoading(false);
+      }
+    }
+  };
+
+
+  useEffect(() => {
+    if (authChecked) {
+      fetchData();
+    }
+  }, [activeTab, authChecked]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -80,6 +140,66 @@ const AdminDashboard: React.FC = () => {
     await supabase.auth.signOut();
     navigate('/');
   };
+
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-[#0a0c10] flex items-center justify-center p-6">
+        <Animated className="w-full max-w-md bg-[#0d1117] border border-slate-800 p-8 rounded-3xl shadow-2xl">
+          <div className="flex justify-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-[#ffae1f] to-[#fe4f51] rounded-2xl flex items-center justify-center shadow-lg shadow-[#ffae1f]/20">
+              <ShieldCheck className="size-10 text-white" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-white text-center mb-2">Admin Portal</h2>
+          <p className="text-slate-500 text-center text-sm mb-8">Secure access to PAWIN Database</p>
+          
+          <form onSubmit={handleAdminLogin} className="space-y-4">
+            {loginError && (
+              <div className="bg-red-500/10 border border-red-500/50 p-3 rounded-xl text-red-400 text-xs text-center">
+                {loginError}
+              </div>
+            )}
+            <div>
+              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-1">Admin Email</label>
+              <input 
+                type="email" 
+                required
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-[#ffae1f]/50 transition-all mt-1"
+                placeholder="admin@pawin.com"
+                value={loginForm.email}
+                onChange={(e) => setLoginForm({...loginForm, email: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-1">Password</label>
+              <input 
+                type="password" 
+                required
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-[#ffae1f]/50 transition-all mt-1"
+                placeholder="••••••••"
+                value={loginForm.password}
+                onChange={(e) => setLoginForm({...loginForm, password: e.target.value})}
+              />
+            </div>
+            <button 
+              type="submit"
+              disabled={loginLoading}
+              className="w-full bg-gradient-to-r from-[#ffae1f] to-[#fe4f51] text-white font-bold py-4 rounded-xl hover:opacity-90 transition-all mt-4 shadow-xl shadow-[#ffae1f]/10"
+            >
+              {loginLoading ? "Authenticating..." : "Authorize Access"}
+            </button>
+          </form>
+          
+          <button 
+            onClick={() => navigate('/')}
+            className="w-full text-slate-600 text-xs font-bold uppercase tracking-widest mt-8 hover:text-slate-400 transition-colors"
+          >
+            Cancel & Return to Site
+          </button>
+        </Animated>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-[#0a0c10] text-slate-300 font-sans">
