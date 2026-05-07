@@ -24,6 +24,7 @@ import Stats from './src/components/Stats';
 import ProjectDetail from './src/components/ProjectDetail';
 import PrivacyPolicy from './src/components/PrivacyPolicy';
 import TermsOfService from './src/components/TermsOfService';
+import AdminDashboard from './src/components/AdminDashboard';
 
 import { supabase } from './src/lib/supabase';
 
@@ -58,6 +59,8 @@ const App: React.FC = () => {
 
   const currentPage = location.pathname === '/' ? 'home' : location.pathname.substring(1);
   const isAuthPage = location.pathname === '/signin' || location.pathname === '/signup';
+  const isAdminPage = location.pathname === '/admin';
+  const hideLayout = isAuthPage || isAdminPage;
 
   const openJoinModal = (interest = 'general', options: { jobTitle?: string } = {}) => {
     setJoinModalConfig({ interest, ...options });
@@ -76,8 +79,8 @@ const App: React.FC = () => {
     <>
       <Loader />
       <div className="min-h-screen flex flex-col bg-slate-900 text-slate-300 font-sans antialiased">
-        {/* Global Particle Background (Hidden on Auth Pages) */}
-        {!isAuthPage && (
+        {/* Global Particle Background (Hidden on Auth/Admin Pages) */}
+        {!hideLayout && (
           <div className="fixed inset-0 -z-10 text-slate-400 opacity-60">
             <ParticleBackground />
           </div>
@@ -86,7 +89,7 @@ const App: React.FC = () => {
         {/* Semi-transparent overlay for better readability */}
         <div className="fixed inset-0 -z-10 bg-slate-900/40 pointer-events-none"></div>
         
-        {!isAuthPage && (
+        {!hideLayout && (
           <Header 
             currentPage={currentPage} 
             setCurrentPage={setCurrentPage} 
@@ -110,6 +113,7 @@ const App: React.FC = () => {
             } />
             <Route path="/signin" element={<SignIn setCurrentPage={setCurrentPage} />} />
             <Route path="/signup" element={<SignUp setCurrentPage={setCurrentPage} />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/projects/:name" element={<ProjectDetail />} />
             <Route path="/innovators" element={<Innovators openJoinModal={openJoinModal} />} />
             <Route path="/investors" element={<Investors openJoinModal={openJoinModal} />} />
@@ -124,7 +128,7 @@ const App: React.FC = () => {
           </Routes>
         </main>
 
-        {!isAuthPage && (
+        {!hideLayout && (
           <StickyFooter setCurrentPage={setCurrentPage} />
         )}
 
