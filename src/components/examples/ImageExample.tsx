@@ -13,7 +13,7 @@ const ImageExample: React.FC = () => {
           <div>
             <h3 className="text-lg font-medium mb-2">Regular Image</h3>
             <img 
-              src="/img/student.jpg" 
+              src="img/student.jpg" 
               alt="Student" 
               className="w-full h-auto rounded-lg shadow-md"
               loading="lazy"
@@ -22,7 +22,7 @@ const ImageExample: React.FC = () => {
           <div>
             <h3 className="text-lg font-medium mb-2">Optimized Image</h3>
             <OptimizedImage 
-              src="/img/student.jpg" 
+              src="img/student.jpg" 
               alt="Student" 
               className="w-full h-auto rounded-lg shadow-md"
               width={400}
@@ -36,7 +36,7 @@ const ImageExample: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-4">2. Optimized Background</h2>
         <div className="h-64 rounded-lg overflow-hidden">
           <OptimizedBackground 
-            src="/img/group-afro-americans-working-together.jpg"
+            src="img/group-afro-americans-working-together.jpg"
             className="h-full flex items-center justify-center"
           >
             <div className="bg-black bg-opacity-50 text-white p-6 rounded-lg text-center">

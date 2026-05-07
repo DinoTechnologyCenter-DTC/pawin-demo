@@ -313,7 +313,7 @@ const About: React.FC = () => {
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <Animated className="relative group">
-              <img src="/img/Pawin banner.jpg" alt="PAWIN Logo" className="rounded-xl shadow-2xl w-full h-auto" />
+              <img src="img/Pawin banner.jpg" alt="PAWIN Logo" className="rounded-xl shadow-2xl w-full h-auto" />
             </Animated> 
             <Animated>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Story</h2>
