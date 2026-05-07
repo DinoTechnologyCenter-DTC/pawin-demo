@@ -484,7 +484,6 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 ) : <EmptyState icon={<List className="size-16" />} text="System logs are clean" />
               )}
-               )}
 
                {/* Media Tab */}
               {activeTab === 'media' && (

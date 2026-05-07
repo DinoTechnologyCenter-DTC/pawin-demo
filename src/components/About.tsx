@@ -18,7 +18,7 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
     {
-        avatar: "https://picsum.photos/id/1012/200/200",
+        avatar: "ceo.jpeg",
         name: "Christopher Sinkamba",
         role: "Founder & CEO",
         bio: "Christopher Sinkamba is a serial entrepreneur with a passion for leveraging technology to solve systemic challenges. Witnessing the untapped potential of innovators across Tanzania, he founded PAWIN to create the ecosystem he wished he had as a young founder. His vision is to build a self-sustaining engine for African growth, powered by local talent and global collaboration.",
@@ -403,7 +403,7 @@ const About: React.FC = () => {
             viewport={{ once: true }}
           >
             <img 
-              src="/about_image.jpeg" 
+              src="about_image.jpeg" 
               alt="The PAWIN Team at our Headquarters" 
               className="w-full h-full object-cover object-top"
             />

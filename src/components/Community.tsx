@@ -168,19 +168,19 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
                         id: 1,
                         title: "PAWIN Meetup",
                         description: "An incredible start to our journey at Letisia Tower.",
-                        imageSrc: "/moment-1.jpeg",
+                        imageSrc: "moment-1.jpeg",
                       },
                       {
                         id: 2,
                         title: "Innovators Gathering",
                         description: "Discussing the future of African Tech.",
-                        imageSrc: "/moment-2.jpeg",
+                        imageSrc: "moment-2.jpeg",
                       },
                       {
                         id: 3,
                         title: "Community Outreach",
                         description: "Building strong foundations together.",
-                        imageSrc: "/moment-3.jpeg",
+                        imageSrc: "moment-3.jpeg",
                       }
                     ]}
                     initialIndex={0}
