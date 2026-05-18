@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, X } from 'lucide-react';
+import { MapPin, X, CheckCircle, Calendar as CalendarIconAlt } from 'lucide-react';
 import { CalendarIcon, ChatIcon, LinkedInIcon, XIcon, FintechIcon, HealthtechIcon, CleanTechIcon } from './icons';
 import Animated from './Animated';
+import { supabase } from '../lib/supabase';
 import { Timeline, type TimelineItem } from '@/components/ui/timeline';
 import { CardStack, type CardStackItem } from '@/components/ui/card-stack';
 
@@ -16,6 +17,25 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
   const [activeTab, setActiveTab] = useState<'events' | 'moments'>('events');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [winWidth, setWinWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const [events, setEvents] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const { data } = await supabase
+        .from('events')
+        .select('*')
+        .order('event_date', { ascending: true });
+      if (data) setEvents(data);
+    };
+    fetchEvents();
+  }, []);
+
+  const isEventPassed = (dateStr: string) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const eventDate = new Date(dateStr);
+    return eventDate < today;
+  };
 
   useEffect(() => {
     const handleResize = () => setWinWidth(window.innerWidth);
@@ -73,81 +93,78 @@ const Community: React.FC<CommunityProps> = ({ openJoinModal }) => {
                   className="relative space-y-6"
                 >
               
-              {/* Event 1 - Pawin Event */}
-              <div className="relative flex gap-4 md:gap-8 items-start group">
-                {/* Left side: Date & Time */}
-                <div className="hidden md:flex w-32 shrink-0 flex-col items-end text-right pt-3">
-                  <span className="text-xl font-bold text-slate-200">07 May</span>
-                  <span className="text-xs font-medium text-slate-400 mt-1">Thu at 02:00 PM 2026</span>
-                </div>
+                  {events.length > 0 ? (
+                    events.map((event) => {
+                      const passed = isEventPassed(event.event_date);
+                      return (
+                        <div key={event.id} className={`relative flex gap-4 md:gap-8 items-start group transition-all duration-700 ${passed ? 'opacity-40 blur-[0.5px]' : 'opacity-100'}`}>
+                          {/* Left side: Date & Time */}
+                          <div className="hidden md:flex w-32 shrink-0 flex-col items-end text-right pt-3">
+                            <span className={`text-xl font-bold ${passed ? 'text-slate-500' : 'text-slate-200'}`}>
+                              {new Date(event.event_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+                            </span>
+                            <span className={`text-xs font-medium ${passed ? 'text-slate-600' : 'text-slate-400'} mt-1`}>
+                              {event.event_time} {new Date(event.event_date).getFullYear()}
+                            </span>
+                          </div>
 
-                {/* Center: Line & Icon */}
-                <div className="relative flex flex-col items-center self-stretch">
-                  {/* The vertical line extending downwards (no line for the last item, or fades out) */}
-                  <div className="absolute top-10 bottom-[-1.5rem] w-px bg-amber-500/30 group-hover:bg-amber-500/60 transition-colors" />
-                  
-                  {/* The icon circle */}
-                  <div className="relative z-10 w-10 h-10 rounded-full bg-slate-900 border-2 border-amber-500 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(245,158,11,0.4)]">
-                    <div className="w-3 h-3 rounded-full bg-amber-500 animate-pulse" />
-                  </div>
-                </div>
+                          {/* Center: Line & Icon */}
+                          <div className="relative flex flex-col items-center self-stretch">
+                            <div className={`absolute top-10 bottom-[-1.5rem] w-px ${passed ? 'bg-slate-700' : 'bg-amber-500/30 group-hover:bg-amber-500/60'} transition-colors`} />
+                            
+                            <div className={`relative z-10 w-10 h-10 rounded-full bg-slate-900 border-2 flex items-center justify-center shrink-0 transition-all duration-500 ${passed ? 'border-slate-600 shadow-none' : 'border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.4)]'}`}>
+                              {passed ? (
+                                <CheckCircle className="w-5 h-5 text-slate-500" />
+                              ) : (
+                                <div className="w-3 h-3 rounded-full bg-amber-500 animate-pulse" />
+                              )}
+                            </div>
+                          </div>
 
-                {/* Right side: Card Content */}
-                <div className="flex-1 pb-4">
-                  <div className="bg-slate-800/40 border border-amber-500/50 hover:border-amber-400 rounded-xl p-5 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-slate-800/60">
-                    <div className="md:hidden text-xs text-amber-400 font-semibold mb-2">
-                      07 May 2026 • 02:00 PM
+                          {/* Right side: Card Content */}
+                          <div className="flex-1 pb-4">
+                            <div className={`bg-slate-800/40 border rounded-xl p-5 shadow-lg transition-all duration-300 ${passed ? 'border-slate-700 grayscale-[0.5]' : 'border-amber-500/50 hover:border-amber-400 hover:-translate-y-1 hover:bg-slate-800/60'}`}>
+                              <div className="md:hidden text-xs text-amber-400 font-semibold mb-2">
+                                {new Date(event.event_date).toLocaleDateString()} • {event.event_time}
+                              </div>
+                              <div className="flex justify-between items-start gap-4">
+                                <div>
+                                  <h3 className={`text-xl font-bold mb-2 ${passed ? 'text-slate-400 line-through decoration-slate-600' : 'text-white'}`}>{event.title}</h3>
+                                  <p className={`leading-relaxed mb-4 text-sm md:text-base ${passed ? 'text-slate-500' : 'text-slate-300'}`}>
+                                    {event.description}
+                                  </p>
+                                </div>
+                                {event.image_url && (
+                                  <img src={event.image_url} alt={event.title} className={`w-20 h-20 rounded-lg object-cover border border-slate-700 ${passed ? 'opacity-50' : 'opacity-100'}`} />
+                                )}
+                              </div>
+                              
+                              <div className="flex items-center gap-1.5 text-sm text-slate-400">
+                                <MapPin className={`w-4 h-4 shrink-0 ${passed ? 'text-slate-600' : 'text-amber-500'}`} />
+                                {event.maps_url ? (
+                                  <a 
+                                    href={event.maps_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`transition-colors ${passed ? 'text-slate-500' : 'hover:text-amber-400 hover:underline'}`}
+                                  >
+                                    {event.location_name} {event.venue && `• ${event.venue}`}
+                                  </a>
+                                ) : (
+                                  <span>{event.location_name} {event.venue && `• ${event.venue}`}</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="text-center py-20">
+                      <CalendarIconAlt className="size-12 text-slate-700 mx-auto mb-4" />
+                      <p className="text-slate-500">No events scheduled at the moment.</p>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Pawin Event</h3>
-                    <p className="text-slate-300 leading-relaxed mb-4 text-sm md:text-base">
-                      Let's start our journey with PAWIN.
-                    </p>
-                    <div className="flex items-center gap-1.5 text-sm text-slate-400">
-                      <MapPin className="w-4 h-4 text-amber-500 shrink-0" />
-                      <a 
-                        href="https://www.google.com/maps/place/Letisia+Tower,+Dar+es+Salaam/@-6.7752958,39.2418444,18.88z/data=!4m15!1m8!3m7!1s0x185c4c2151019b1d:0x4b3806976264f744!2sLetisia+Tower,+Dar+es+Salaam!3b1!8m2!3d-6.7752571!4d39.2423401!16s%2Fg%2F12hvnf4s0!3m5!1s0x185c4c2151019b1d:0x4b3806976264f744!8m2!3d-6.7752571!4d39.2423401!16s%2Fg%2F12hvnf4s0?entry=ttu&g_ep=EgoyMDI2MDUwMi4wIKXMDSoASAFQAw%3D%3D"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-amber-400 hover:underline transition-colors"
-                      >
-                        CH2 Third Floor, Letisia Tower, Dar es Salaam
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Event 2 - Upcoming / TBA */}
-              <div className="relative flex gap-4 md:gap-8 items-start group opacity-80">
-                {/* Left side: Date & Time */}
-                <div className="hidden md:flex w-32 shrink-0 flex-col items-end text-right pt-3">
-                  <span className="text-xl font-bold text-slate-400">Soon</span>
-                  <span className="text-xs font-medium text-slate-500 mt-1">Stay tuned</span>
-                </div>
-
-                {/* Center: Line & Icon */}
-                <div className="relative flex flex-col items-center self-stretch">
-                  {/* No line extending down since it's the last item */}
-                  
-                  {/* The icon circle */}
-                  <div className="relative z-10 w-10 h-10 rounded-full bg-slate-900 border-2 border-slate-600 flex items-center justify-center shrink-0 mt-0">
-                    <CalendarIcon className="w-4 h-4 text-slate-500" />
-                  </div>
-                </div>
-
-                {/* Right side: Card Content */}
-                <div className="flex-1 pb-4">
-                  <div className="bg-slate-800/20 border border-slate-700 border-dashed rounded-xl p-5 transition-all duration-300 hover:border-slate-500">
-                    <div className="md:hidden text-xs text-slate-500 font-semibold mb-2">
-                      Upcoming
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-300 mb-2">Get ready for the next Event</h3>
-                    <p className="text-slate-500 leading-relaxed text-sm md:text-base">
-                      More exciting updates, pitch sessions, and meetups are on the way.
-                    </p>
-                  </div>
-                </div>
-              </div>
+                  )}
 
               </motion.div>
             ) : (

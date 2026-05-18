@@ -5,18 +5,20 @@ import {
   Mail, Users, CheckCircle, Clock, Trash2, 
   ChevronRight, LayoutDashboard, Settings, 
   LogOut, Bell, Search, Filter, Home,
-  FileText, Activity, ShieldCheck, List, Image, Video
+  FileText, Activity, ShieldCheck, List, Image, Video,
+  Calendar, MapPin, Plus
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { logEvent } from '../lib/audit';
 
 const AdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'applications' | 'messages' | 'users' | 'logs' | 'settings' | 'media'>('applications');
+  const [activeTab, setActiveTab] = useState<'applications' | 'messages' | 'users' | 'logs' | 'settings' | 'media' | 'events'>('applications');
   const [applications, setApplications] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [logs, setLogs] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
   const [siteContent, setSiteContent] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -61,10 +63,11 @@ const AdminDashboard: React.FC = () => {
     setError(null);
     try {
       // Fetch everything simultaneously to populate stats cards
-      const [appsRes, msgsRes, usersRes] = await Promise.all([
+      const [appsRes, msgsRes, usersRes, eventsRes] = await Promise.all([
         supabase.from('applications').select('*').order('created_at', { ascending: false }),
         supabase.from('contact_messages').select('*').order('created_at', { ascending: false }),
-        supabase.from('profiles').select('*').order('created_at', { ascending: false })
+        supabase.from('profiles').select('*').order('created_at', { ascending: false }),
+        supabase.from('events').select('*').order('event_date', { ascending: false })
       ]);
 
       if (appsRes.error && appsRes.error.code !== 'PGRST116') {
@@ -76,10 +79,14 @@ const AdminDashboard: React.FC = () => {
       if (usersRes.error && usersRes.error.code !== 'PGRST116') {
         console.error("Users fetch error:", usersRes.error);
       }
+      if (eventsRes.error && eventsRes.error.code !== 'PGRST116') {
+        console.error("Events fetch error:", eventsRes.error);
+      }
 
       setApplications(appsRes.data || []);
       setMessages(msgsRes.data || []);
       setUsers(usersRes.data || []);
+      setEvents(eventsRes.data || []);
 
       if (activeTab === 'logs') {
         const { data: logsData, error: logsError } = await supabase
@@ -97,6 +104,35 @@ const AdminDashboard: React.FC = () => {
       setError(err instanceof Error ? err.message : 'Failed to connect to database');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const addEvent = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    const eventData = {
+      title: formData.get('title'),
+      event_date: formData.get('event_date'),
+      event_time: formData.get('event_time'),
+      location_name: formData.get('location_name'),
+      venue: formData.get('venue'),
+      maps_url: formData.get('maps_url'),
+      description: formData.get('description'),
+      image_url: formData.get('image_url') || null
+    };
+
+    try {
+      const { error } = await supabase.from('events').insert([eventData]);
+      if (error) throw error;
+      
+      await logEvent(user?.email || 'unknown', `Created event: ${eventData.title}`, 'info');
+      alert('Event created successfully!');
+      form.reset();
+      fetchData();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to create event');
     }
   };
 
@@ -187,6 +223,14 @@ const AdminDashboard: React.FC = () => {
           >
             <Image className={`size-5 ${activeTab === 'media' ? 'text-amber-400' : 'text-slate-500 group-hover:text-slate-300'}`} />
             <span className="font-semibold text-sm">Media Center</span>
+          </button>
+
+          <button 
+            onClick={() => setActiveTab('events')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${activeTab === 'events' ? 'bg-purple-500/10 text-purple-400' : 'hover:bg-slate-800/50 text-slate-400 hover:text-white'}`}
+          >
+            <Calendar className={`size-5 ${activeTab === 'events' ? 'text-purple-400' : 'text-slate-500 group-hover:text-slate-300'}`} />
+            <span className="font-semibold text-sm">Events</span>
           </button>
 
           <div className="pt-8">
@@ -333,22 +377,28 @@ const AdminDashboard: React.FC = () => {
                 {activeTab === 'applications' ? <LayoutDashboard className="size-5 text-[#ffae1f]" /> : 
                  activeTab === 'users' ? <Users className="size-5 text-blue-400" /> : 
                  activeTab === 'messages' ? <Mail className="size-5 text-[#fe4f51]" /> : 
+                 activeTab === 'events' ? <Calendar className="size-5 text-purple-400" /> :
                  activeTab === 'logs' ? <List className="size-5 text-emerald-400" /> : 
-                 <Settings className="size-5 text-slate-400" />}
-                <h2 className="text-2xl font-bold text-white capitalize">
+                 <Settings className="size-5 text-[#ffae1f]" />}
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white tracking-tight">
                   {activeTab === 'applications' ? 'Command Center' : 
                    activeTab === 'users' ? 'User Directory' : 
                    activeTab === 'messages' ? 'Support Desk' : 
-                   activeTab === 'logs' ? 'Security Audit' : 'Platform Settings'}
-                </h2>
-              </div>
-              <p className="text-slate-500 text-sm">
-                {activeTab === 'applications' ? 'Overview of all innovator and investor applications' : 
-                 activeTab === 'users' ? 'Manage global PAWIN member accounts and roles' : 
-                 activeTab === 'messages' ? 'Review and respond to platform inquiries' : 
-                 activeTab === 'logs' ? 'Monitor system actions and security events' : 'Configure platform-wide administrative controls'}
-              </p>
-            </Animated>
+                   activeTab === 'events' ? 'Event Management' :
+                   activeTab === 'logs' ? 'Security Audit' : 
+                   activeTab === 'media' ? 'Media Center' : 'Platform Settings'}
+                </h1>
+                <p className="text-xs text-slate-500 font-medium">
+                  {activeTab === 'applications' ? 'Overview of all innovator and investor applications' : 
+                   activeTab === 'users' ? 'Manage global PAWIN member accounts and roles' : 
+                   activeTab === 'messages' ? 'Review and respond to platform inquiries' : 
+                   activeTab === 'events' ? 'Create and manage community meetups and events' :
+                   activeTab === 'logs' ? 'Monitor system actions and security events' : 
+                   activeTab === 'media' ? 'Manage homepage video and images' : 'Configure platform-wide administrative controls'}
+                </p>
+              </div>            </Animated>
             
             <div className="flex items-center gap-3">
               <button 
@@ -485,7 +535,81 @@ const AdminDashboard: React.FC = () => {
                 ) : <EmptyState icon={<List className="size-16" />} text="System logs are clean" />
               )}
 
-               {/* Media Tab */}
+               {/* Events Tab */}
+              {activeTab === 'events' && (
+                <div className="grid gap-8">
+                  <div className="bg-[#0d1117] border border-slate-800 rounded-2xl p-8">
+                    <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                      <Plus className="size-5 text-purple-400" /> Create New Event
+                    </h3>
+                    <form onSubmit={addEvent} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase">Event Title</label>
+                        <input name="title" required type="text" placeholder="e.g. Networking Mixer" className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500/50" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-slate-500 uppercase">Date</label>
+                          <input name="event_date" required type="date" className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500/50" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-slate-500 uppercase">Time</label>
+                          <input name="event_time" required type="text" placeholder="e.g. 02:00 PM" className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500/50" />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase">Location Name</label>
+                        <input name="location_name" required type="text" placeholder="e.g. Letisia Tower" className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500/50" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase">Venue</label>
+                        <input name="venue" type="text" placeholder="e.g. Venue CH2" className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500/50" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase">Google Maps URL</label>
+                        <input name="maps_url" type="url" placeholder="https://goo.gl/maps/..." className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500/50" />
+                      </div>
+                      <div className="md:col-span-2 space-y-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase">Description</label>
+                        <textarea name="description" rows={3} placeholder="Describe the event..." className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500/50" />
+                      </div>
+                      <div className="md:col-span-2 flex justify-end">
+                        <button type="submit" className="bg-purple-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-purple-600 transition-all flex items-center gap-2">
+                          <Plus className="size-4" /> Create Event
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div className="bg-[#0d1117] border border-slate-800 rounded-2xl p-8">
+                    <h3 className="text-lg font-bold text-white mb-6">Existing Events</h3>
+                    <div className="space-y-4">
+                      {events.length > 0 ? (
+                        events.map((event) => (
+                          <div key={event.id} className="flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-800 hover:border-slate-700 transition-all">
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center text-purple-400">
+                                <Calendar className="size-6" />
+                              </div>
+                              <div>
+                                <h4 className="text-white font-bold">{event.title}</h4>
+                                <p className="text-xs text-slate-500">{new Date(event.event_date).toLocaleDateString()} at {event.event_time} • {event.location_name}</p>
+                              </div>
+                            </div>
+                            <button onClick={() => deleteItem(event.id, 'events')} className="text-slate-600 hover:text-red-400 p-2 transition-colors">
+                              <Trash2 className="size-5" />
+                            </button>
+                          </div>
+                        ))
+                      ) : (
+                        <EmptyState icon={<Calendar className="size-12" />} text="No events scheduled" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Media Tab */}
               {activeTab === 'media' && (
                 <div className="grid gap-6 max-w-5xl">
                   <div className="bg-[#0d1117] border border-slate-800 rounded-2xl p-8">
