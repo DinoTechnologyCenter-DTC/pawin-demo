@@ -46,5 +46,18 @@
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
     "vite-plugin-image-optimizer": "^2.0.2"
-  }
+  },
+  "description": "<div align=\"center\"> <img width=\"1200\" height=\"475\" alt=\"Pawin Banner\" src=\"/public/img/Pawin banner.jpg\" /> </div>",
+  "main": "postcss.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinoTechnologyCenter-DTC/pawin-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DinoTechnologyCenter-DTC/pawin-demo/issues"
+  },
+  "homepage": "https://github.com/DinoTechnologyCenter-DTC/pawin-demo#readme"
 }
